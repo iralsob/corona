@@ -47,7 +47,6 @@ gulp.task('build-html', function () {
 gulp.task('build-js', function () {
     gulp.src(path.src.js) //Найдем наш main файл
         .pipe(rigger()) //Прогоним через rigger
-        .pipe(uglify()) //Сожмем наш js
         .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
         .pipe(reload({stream: true})); //И перезагрузим сервер
 });
