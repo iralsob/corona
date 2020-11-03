@@ -1,5 +1,5 @@
 'use strict';
-
+require("regenerator-runtime/runtime");
 var gulp = require('gulp'),
     watch = require('gulp-watch'),
     prefixer = require('gulp-autoprefixer'),
@@ -51,7 +51,7 @@ gulp.task('build-html', function () {
 gulp.task('build-js', function () {
     gulp.src(path.src.js)
         .pipe(rigger())
-        .pipe(babel({presets: ['@babel/preset-env']}))
+        .pipe(babel())
         // .pipe(uglify())
         .pipe(gulp.dest(path.build.js))
         .pipe(reload({stream: true}));
