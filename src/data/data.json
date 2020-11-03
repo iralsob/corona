@@ -12,7 +12,7 @@
         es_to: 2420,
         estimation_match_symbol: "!",
         cases_per_ht_two_week_ago: 602,
-        last_update_date: 2020-11-03,
+        last_update_date: "2020-11-03",
         direction: "^^^^^^v"
     },
     {
@@ -28,7 +28,7 @@
         es_to: 1394,
         estimation_match_symbol: "=",
         cases_per_ht_two_week_ago: 738,
-        last_update_date: 2020-11-03,
+        last_update_date: "2020-11-03",
         direction: "^^^^^vv"
     },
     {
@@ -44,7 +44,7 @@
         es_to: 503,
         estimation_match_symbol: "!",
         cases_per_ht_two_week_ago: 239,
-        last_update_date: 2020-11-03,
+        last_update_date: "2020-11-03",
         direction: "^^^^^^^"
     },
     {
@@ -60,7 +60,7 @@
         es_to: 605,
         estimation_match_symbol: "!",
         cases_per_ht_two_week_ago: 252,
-        last_update_date: 2020-11-03,
+        last_update_date: "2020-11-03",
         direction: "^^^^^^^"
     },
     {
@@ -76,7 +76,7 @@
         es_to: 1291,
         estimation_match_symbol: "!",
         cases_per_ht_two_week_ago: 272,
-        last_update_date: 2020-11-03,
+        last_update_date: "2020-11-03",
         direction: "^^^^^^v"
     }
 ]
