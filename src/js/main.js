@@ -1,18 +1,17 @@
-var App = React.createClass({
-  render: function() {
+class App extends React.Component {
+  render() {
     return (
           <Header />
     );
   }
-});
+};
 
-
-var Header = React.createClass({
- render: function() {
+class Header extends React.Component {
+ render() {
    return (
             <div className="test">test</div>
    )
  }
-});
+};
 
-React.render(<App/>, document.querySelector("#main"));
+ReactDOM.render(<App/>, document.querySelector("#main"));
