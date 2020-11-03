@@ -9,7 +9,7 @@ var gulp = require('gulp'),
     cssmin = require('gulp-minify-css'),
     imagemin = require('gulp-imagemin'),
     pngquant = require('imagemin-pngquant'),
-    browserSync = require("browser-sync"),
+    browserSync = require('browser-sync'),
     babel = require('gulp-babel'),
     reload = browserSync.reload;
 
@@ -49,7 +49,7 @@ gulp.task('build-js', function () {
     gulp.src(path.src.js) //Найдем наш main файл
         .pipe(rigger()) //Прогоним через rigger
         .pipe(babel({presets: ['@babel/preset-env']}))
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
         .pipe(reload({stream: true})); //И перезагрузим сервер
 });

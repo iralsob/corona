@@ -1,5 +1,3 @@
-var React = require('gulp-react');
-
 var App = React.createClass({
   render: function() {
     return (
