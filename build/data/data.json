@@ -1,5 +1,6 @@
 [
     {
+        "id": 1,
         "country_name": "Czechia",
         "is_this_week_record": 1,
         "week_record": 845,
@@ -16,6 +17,7 @@
         "direction": "^^^^^^v"
     },
     {
+        "id": 2,
         "country_name": "Belgium",
         "is_this_week_record": 1,
         "week_record": 982,
@@ -32,6 +34,7 @@
         "direction": "^^^^^vv"
     },
     {
+        "id": 3,
         "country_name": "Switzerland",
         "is_this_week_record": 1,
         "week_record": 642,
@@ -48,6 +51,7 @@
         "direction": "^^^^^^^"
     },
     {
+        "id": 4,
         "country_name": "Slovenia",
         "is_this_week_record": 1,
         "week_record": 634,
@@ -64,6 +68,7 @@
         "direction": "^^^^^^^"
     },
     {
+        "id": 5,
         "country_name": "Armenia",
         "is_this_week_record": 1,
         "week_record": 561,
