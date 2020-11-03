@@ -22,6 +22,19 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+// load in JSON data from file
+var data;
+var oReq = new XMLHttpRequest();
+oReq.onload = reqListener;
+oReq.open("get", "data/data.json", true);
+oReq.send();
+
+function reqListener(e) {
+  data = JSON.parse(this.responseText);
+}
+
+console.log(data);
+
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
 
@@ -35,37 +48,33 @@ var App = /*#__PURE__*/function (_React$Component) {
 
   _createClass(App, [{
     key: "render",
+    // var element = (
+    //   <table className="table">
+    //       <thead>
+    //           <tr>
+    //               <th>Страна</th>
+    //               <th>Число случаев за 7 дней на 100 тыс.</th>
+    //               <th>Неделю назад</th>
+    //               <th>2 Недели назад</th>
+    //               <th>Эмулированное по смертям (макс)</th>
+    //               <th>Эмулированное по смертям (диапазон)</th>
+    //               <th>По отношению к прошлой неделе</th>
+    //               <th>Динамика за 7 дней</th>
+    //           </tr>
+    //       </thead>
+    //       <tbody>
+    //
+    //       </tbody>
+    //   </table>
+    // );
     value: function render() {
-      return /*#__PURE__*/React.createElement(Header, null);
+      return /*#__PURE__*/React.createElement("div", {
+        className: "container"
+      }, "Meow");
     }
   }]);
 
   return App;
-}(React.Component);
-
-;
-
-var Header = /*#__PURE__*/function (_React$Component2) {
-  _inherits(Header, _React$Component2);
-
-  var _super2 = _createSuper(Header);
-
-  function Header() {
-    _classCallCheck(this, Header);
-
-    return _super2.apply(this, arguments);
-  }
-
-  _createClass(Header, [{
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/React.createElement("div", {
-        className: "test"
-      }, "test");
-    }
-  }]);
-
-  return Header;
 }(React.Component);
 
 ;
