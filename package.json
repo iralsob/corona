@@ -6,6 +6,7 @@
     "license": "ISC",
     "devDependencies": {
         "@babel/core": "^7.12.3",
+        "@babel/plugin-transform-runtime": "^7.12.1",
         "@babel/preset-env": "^7.12.1",
         "@babel/preset-react": "^7.12.1",
         "browser-sync": "^2.26.13",
@@ -21,6 +22,7 @@
         "imagemin-pngquant": "^9.0.1"
     },
     "dependencies": {
+        "@babel/runtime": "^7.12.1",
         "node-sass": "^5.0.0"
     }
 }

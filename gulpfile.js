@@ -19,39 +19,42 @@ var path = {
         js: 'build/js/',
         css: 'build/css/',
         img: 'build/img/',
-        fonts: 'build/fonts/'
+        fonts: 'build/fonts/',
+        data: 'build/data/'
     },
     src: {
         html: 'src/*.html',
         js: 'src/js/main.js',
         style: 'src/scss/main.scss',
         img: 'src/img/**/*.*',
-        fonts: 'src/fonts/**/*.*'
+        fonts: 'src/fonts/**/*.*',
+        data: 'src/data/data.json'
     },
     watch: {
         html: 'src/**/*.html',
         js: 'src/js/**/*.js',
         style: 'src/scss/**/*.scss',
         img: 'src/img/**/*.*',
-        fonts: 'src/fonts/**/*.*'
+        fonts: 'src/fonts/**/*.*',
+        data: 'src/data/data.json'
     },
     clean: './build'
 };
 
 gulp.task('build-html', function () {
-    gulp.src(path.src.html) //Выберем файлы по нужному пути
-        .pipe(rigger()) //Прогоним через rigger
-        .pipe(gulp.dest(path.build.html)) //Выплюнем их в папку build
-        .pipe(reload({stream: true})); //И перезагрузим наш сервер для обновлений
+    gulp.src(path.src.html)
+        .pipe(rigger())
+        .pipe(gulp.dest(path.build.html))
+        .pipe(reload({stream: true}));
 });
 
 gulp.task('build-js', function () {
-    gulp.src(path.src.js) //Найдем наш main файл
-        .pipe(rigger()) //Прогоним через rigger
+    gulp.src(path.src.js)
+        .pipe(rigger())
         .pipe(babel({presets: ['@babel/preset-env']}))
         // .pipe(uglify())
-        .pipe(gulp.dest(path.build.js)) //Выплюнем готовый файл в build
-        .pipe(reload({stream: true})); //И перезагрузим сервер
+        .pipe(gulp.dest(path.build.js))
+        .pipe(reload({stream: true}));
 });
 
 gulp.task('build-style', function () {
@@ -80,7 +83,14 @@ gulp.task('build-fonts', function() {
         .pipe(gulp.dest(path.build.fonts))
 });
 
+
+gulp.task('build-data', function() {
+    gulp.src(path.src.data)
+        .pipe(gulp.dest(path.build.data))
+});
+
 gulp.task('watch', function(){
+watch([path.watch.data], gulp.parallel('build-data'));
     watch([path.watch.html], gulp.parallel('build-html'));
     watch([path.watch.style], gulp.parallel('build-style'));
     watch([path.watch.js], gulp.parallel('build-js'));
