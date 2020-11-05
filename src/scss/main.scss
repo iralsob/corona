@@ -36,6 +36,9 @@ html {
 
       text-align: left;
 
+      box-shadow: 0px 4px 9px -2px transparent;
+      transition: box-shadow .3s 0s linear;
+
       &.active {
         box-shadow: 0px 4px 9px -2px #333;
       }
@@ -70,15 +73,19 @@ html {
     position: relative;
   }
   &__overflow{
-    display: none;
+    display: inline-block;
     position: absolute;
-    background: linear-gradient(90deg, transparent 0%, #eae7dc 100%);
     top: 0;
     bottom: 0;
     right: 0;
     left: 90%;
+
+    background: linear-gradient(90deg,transparent 0,#eae7dc 100%);
+
+    opacity: 0;
+    transition: opacity .3s 0s linear;
     &.active {
-      display: inline-block;
+      opacity: 1;
     }
   }
 }
