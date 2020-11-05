@@ -7,8 +7,8 @@ function createCountriesTable(data){
   var countriesTable = (
     <div>
       <div>
-        <p>N - corona-cases per 100,000 people per week</p>
-        <p>N<sub>e</sub> range - emulated N (сalculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)</p>
+        <p>N &ndash; corona-cases per 100,000 people per week</p>
+        <p>N<sub>e</sub> range &ndash; emulated N (сalculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)</p>
         <p>Countries with a record this week are highlighted in red</p>
       </div>
       <table className="countries-table">
@@ -34,14 +34,28 @@ function createCountriesTable(data){
 
 function createCountryRows(data){
   var countriesRows = data.map((country) =>
-    (<tr key={country.id} className={country.is_this_week_record?'record':''}>
-        <td>{country.country_name}</td>
-        <td>{country.cases_per_ht}</td>
-        <td>{country.cases_per_ht_week_ago}</td>
-        <td>{country.cases_per_ht_two_week_ago}</td>
-        <td>{country.es_from}-{country.es_to}</td>
-        <td className={country.estimation_match_symbol==">"?'more':''}>{country.estimation_match_symbol}</td>
-        <td>{country.direction}</td>
+    (<tr key={country.id} className={country.is_this_week_record?'country record':'country'}>
+        <td className="country_name">
+          {country.country_name}
+        </td>
+        <td className="country_cases">
+          {country.cases_per_ht}
+        </td>
+        <td className="country_cases-week-ago">
+          {country.cases_per_ht_week_ago}
+        </td>
+        <td className="country_cases-two-weeks-ago">
+          {country.cases_per_ht_two_week_ago}
+        </td>
+        <td className="country_range">
+          {country.es_from}-{country.es_to}
+        </td>
+        <td className={country.estimation_match_symbol==">"?'country_compared more':'country_compared'}>
+          {country.estimation_match_symbol}
+        </td>
+        <td className="country_dynamic">
+          {country.direction}
+        </td>
     </tr>)
   );
   return countriesRows;
