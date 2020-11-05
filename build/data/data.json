@@ -11,7 +11,7 @@
         "max_emulated_cases_per_ht": 1029,
         "es_from": 1210,
         "es_to": 2420,
-        "estimation_match_symbol": "!",
+        "estimation_match_symbol": ">",
         "cases_per_ht_two_week_ago": 602,
         "last_update_date": "2020-11-03",
         "direction": "^^^^^^v"
@@ -19,7 +19,7 @@
     {
         "id": 2,
         "country_name": "Belgium",
-        "is_this_week_record": 1,
+        "is_this_week_record": 0,
         "week_record": 982,
         "cases_per_ht": 661,
         "deaths_per_ht": 6.97,
@@ -44,8 +44,8 @@
         "cases_per_ht_week_ago": 439,
         "max_emulated_cases_per_ht": 766,
         "es_from": 251,
-        "es_to": 503,
-        "estimation_match_symbol": "!",
+        "es_to": 502,
+        "estimation_match_symbol": ">",
         "cases_per_ht_two_week_ago": 239,
         "last_update_date": "2020-11-03",
         "direction": "^^^^^^^"
@@ -62,7 +62,7 @@
         "max_emulated_cases_per_ht": 878,
         "es_from": 302,
         "es_to": 605,
-        "estimation_match_symbol": "!",
+        "estimation_match_symbol": ">",
         "cases_per_ht_two_week_ago": 252,
         "last_update_date": "2020-11-03",
         "direction": "^^^^^^^"
@@ -79,7 +79,7 @@
         "max_emulated_cases_per_ht": 577,
         "es_from": 645,
         "es_to": 1291,
-        "estimation_match_symbol": "!",
+        "estimation_match_symbol": ">",
         "cases_per_ht_two_week_ago": 272,
         "last_update_date": "2020-11-03",
         "direction": "^^^^^^v"
