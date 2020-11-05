@@ -48,11 +48,11 @@ function createCountriesTable(data){
               <thead>
                   <tr>
                       <th className="js-toggle-shadow-fc">Country</th>
-                      <th>N</th>
-                      <th>N week ago</th>
-                      <th>N 2&nbsp;weeks ago</th>
-                      <th>N<sub>e</sub> range</th>
-                      <th>N<sub>e</sub> vs N 2&nbsp;weeks ago</th>
+                      <th>C</th>
+                      <th>C week ago</th>
+                      <th>C 2&nbsp;weeks ago</th>
+                      <th>C<sub>e</sub> range</th>
+                      <th>C<sub>e</sub> vs C 2&nbsp;weeks ago</th>
                       <th>D</th>
                       <th>D max</th>
                       <th>Weekly dynamics</th>
