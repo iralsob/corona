@@ -45,7 +45,7 @@
         "max_emulated_cases_per_ht": 766,
         "es_from": 251,
         "es_to": 502,
-        "estimation_match_symbol": ">",
+        "estimation_match_symbol": "=",
         "cases_per_ht_two_week_ago": 239,
         "last_update_date": "2020-11-03",
         "direction": "^^^^^^^"
