@@ -38,7 +38,8 @@ function createCountriesTable(data){
     <div>
       <div>
         <p>N &ndash; corona-cases per 100,000 people per week</p>
-        <p>N<sub>e</sub> range &ndash; emulated N (сalculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)</p>
+        <p>N<sub>e</sub> &ndash; emulated N (сalculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)</p>
+        <p>R &ndash; reported corona-cases 2 weeks ago</p>
         <p>Countries with a record this week are highlighted in red</p>
       </div>
       <div className="countries-table__wrapper">
@@ -51,7 +52,7 @@ function createCountriesTable(data){
                       <th>N week ago</th>
                       <th>N 2&nbsp;weeks ago</th>
                       <th>N<sub>e</sub> range</th>
-                      <th>Compared to last week</th>
+                      <th>N<sub>e</sub> vs R 2&nbsp;weeks ago</th>
                       <th>Weekly dynamics</th>
                   </tr>
               </thead>
