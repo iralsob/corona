@@ -6,28 +6,28 @@ function getData() {
 function handleScroll(e) {
   var elm = e.target;
   var scrollPosition = elm.scrollLeft;
-  var endScrollPosition = elm.scrollWidth - elm.offsetWidth;
+  var endScrollPosition = elm.scrollWidth - elm.offsetWidth - 10;
 
   var fcElements = document.getElementsByClassName("js-toggle-shadow-fc");
   var wElements = document.getElementsByClassName("js-toggle-shadow-w");
 
   if (scrollPosition == 0){
     for (var i = 0; i < fcElements.length; i++) {
-       fcElements.item(i).classList.remove('active');
+       fcElements[i].classList.remove('active');
     }
   } else {
     for (var i = 0; i < fcElements.length; i++) {
-       fcElements.item(i).classList.add('active');
+       fcElements[i].classList.add('active');
     }
   }
 
-  if (scrollPosition == endScrollPosition) {
+  if (scrollPosition >= endScrollPosition) {
     for (var i = 0; i < wElements.length; i++) {
-       wElements.item(i).classList.remove('active');
+       wElements[i].classList.remove('active');
     }
   } else {
     for (var i = 0; i < wElements.length; i++) {
-       wElements.item(i).classList.add('active');
+       wElements[i].classList.add('active');
     }
   }
 
