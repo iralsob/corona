@@ -37,8 +37,9 @@ function createCountriesTable(data){
   var countriesTable = (
     <div>
       <div>
-        <p>N &ndash; corona-cases per 100,000 people per week</p>
-        <p>N<sub>e</sub> &ndash; emulated N (сalculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)</p>
+        <p>C &ndash; corona-cases per 100,000 people per last week</p>
+        <p>C<sub>e</sub> &ndash; emulated C (сalculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)</p>
+        <p>D &ndash; death per 100,000 people per last week</p>
         <p>Countries with a record this week are highlighted in red</p>
       </div>
       <div className="countries-table__wrapper">
@@ -52,6 +53,8 @@ function createCountriesTable(data){
                       <th>N 2&nbsp;weeks ago</th>
                       <th>N<sub>e</sub> range</th>
                       <th>N<sub>e</sub> vs N 2&nbsp;weeks ago</th>
+                      <th>D</th>
+                      <th>D max</th>
                       <th>Weekly dynamics</th>
                   </tr>
               </thead>
@@ -88,6 +91,12 @@ function createCountryRows(data){
         </td>
         <td className={country.country_data.estimation_match_symbol=="<"?'country__compared more':'country__compared'}>
           N {country.country_data.estimation_match_symbol} N<sub>e</sub>
+        </td>
+        <td className="country__death">
+          {country.country_data.death_incidence_today.toFixed(2)}
+        </td>
+        <td className="country__death-max">
+          {country.country_data.record_death_incidence.toFixed(2)}
         </td>
         <td className="country__dynamic">
           {country.country_data.direction_symbols}
