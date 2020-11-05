@@ -11,22 +11,24 @@ function createCountriesTable(data){
         <p>N<sub>e</sub> range &ndash; emulated N (сalculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)</p>
         <p>Countries with a record this week are highlighted in red</p>
       </div>
-      <table className="countries-table">
-          <thead>
-              <tr>
-                  <th>Country</th>
-                  <th>N</th>
-                  <th>N week ago</th>
-                  <th>N 2 weeks ago</th>
-                  <th>N<sub>e</sub> range</th>
-                  <th>Compared to last week</th>
-                  <th>Weekly dynamics</th>
-              </tr>
-          </thead>
-          <tbody>
-            {createCountryRows(data)}
-          </tbody>
-      </table>
+      <div className="countries-table_wrap">
+        <table className="countries-table">
+            <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>N</th>
+                    <th>N week ago</th>
+                    <th>N 2 weeks ago</th>
+                    <th>N<sub>e</sub> range</th>
+                    <th>Compared to last week</th>
+                    <th>Weekly dynamics</th>
+                </tr>
+            </thead>
+            <tbody>
+              {createCountryRows(data)}
+            </tbody>
+        </table>
+      </div>
     </div>
   );
   return countriesTable;
@@ -34,7 +36,7 @@ function createCountriesTable(data){
 
 function createCountryRows(data){
   var countriesRows = data.map((country) =>
-    (<tr key={country.id} className={country.is_this_week_record?'country record':'country'}>
+    (<tr key={country.id} className={country.is_this_week_record?'countries-table__row country record':'countries-table__row country'}>
         <td className="country_name">
           {country.country_name}
         </td>
