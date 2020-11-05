@@ -1,46 +1,52 @@
 "use strict";
 
-async function getJSON() {
-  let response = await fetch('https://irisob.github.io/corona/build/data/data.json');
-
-  if (response.ok) {
-    let json = await response.json();
-    console.log(json);
-    return json;
-  } else {
-    console.log(response.ok);
-  }
+function getData() {
+  let url = 'https://irisob.github.io/corona/build/data/data.json';
+  return fetch(url);
 }
 
-var data = getJSON();
+function createCountriesTable(data) {
+  var countriesTable = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "N - corona-cases per 100,000 people per week"), /*#__PURE__*/React.createElement("p", null, "N", /*#__PURE__*/React.createElement("sub", null, "e"), " range - emulated N (\u0441alculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)"), /*#__PURE__*/React.createElement("p", null, "Countries with a record this week are highlighted in red")), /*#__PURE__*/React.createElement("table", {
+    className: "countries-table"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Country"), /*#__PURE__*/React.createElement("th", null, "N"), /*#__PURE__*/React.createElement("th", null, "N week ago"), /*#__PURE__*/React.createElement("th", null, "N 2 weeks ago"), /*#__PURE__*/React.createElement("th", null, "N", /*#__PURE__*/React.createElement("sub", null, "e"), " range"), /*#__PURE__*/React.createElement("th", null, "Compared to last week"), /*#__PURE__*/React.createElement("th", null, "Weekly dynamics"))), /*#__PURE__*/React.createElement("tbody", null, createCountryRows(data))));
+  return countriesTable;
+}
 
-class App extends React.Component {
-  render() {
-    // var element = (
-    //   <table className="table">
-    //       <thead>
-    //           <tr>
-    //               <th>Страна</th>
-    //               <th>Число случаев за 7 дней на 100 тыс.</th>
-    //               <th>Неделю назад</th>
-    //               <th>2 Недели назад</th>
-    //               <th>Эмулированное по смертям (макс)</th>
-    //               <th>Эмулированное по смертям (диапазон)</th>
-    //               <th>По отношению к прошлой неделе</th>
-    //               <th>Динамика за 7 дней</th>
-    //           </tr>
-    //       </thead>
-    //       <tbody>
-    //
-    //       </tbody>
-    //   </table>
-    // );
+function createCountryRows(data) {
+  var countriesRows = data.map(country => /*#__PURE__*/React.createElement("tr", {
+    key: country.id,
+    className: country.is_this_week_record ? 'record' : ''
+  }, /*#__PURE__*/React.createElement("td", null, country.country_name), /*#__PURE__*/React.createElement("td", null, country.cases_per_ht), /*#__PURE__*/React.createElement("td", null, country.cases_per_ht_week_ago), /*#__PURE__*/React.createElement("td", null, country.cases_per_ht_two_week_ago), /*#__PURE__*/React.createElement("td", null, country.es_from, "-", country.es_to), /*#__PURE__*/React.createElement("td", {
+    className: country.estimation_match_symbol == ">" ? 'more' : ''
+  }, country.estimation_match_symbol), /*#__PURE__*/React.createElement("td", null, country.direction)));
+  return countriesRows;
+}
+
+function getContent() {
+  return getData().then(function (response) {
+    if (response.status !== 200) {
+      console.log('Looks like there was a problem. Status Code: ' + response.status);
+      return;
+    }
+
+    let countries_table = response.json().then(function (data) {
+      return createCountriesTable(data);
+    });
+    return countries_table;
+  }).catch(function (err) {
+    console.log('Fetch Error :-S', err);
+  });
+}
+
+function App() {
+  return getContent().then(content => {
     return /*#__PURE__*/React.createElement("div", {
       className: "container"
-    }, "Meow");
-  }
-
+    }, content);
+  });
 }
 
 ;
-ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.querySelector("#main"));
+App().then(app => {
+  ReactDOM.render(app, document.querySelector("#main"));
+});

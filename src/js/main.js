@@ -1,49 +1,82 @@
-
-
-async function getJSON() {
-  let response = await fetch('https://irisob.github.io/corona/build/data/data.json');
-
-  if (response.ok) {
-    let json = await response.json();
-    console.log(json);
-    return json;
-  } else {
-    console.log(response.ok);
-  }
+function getData() {
+  let url = 'https://irisob.github.io/corona/build/data/data.json';
+  return fetch(url);
 }
 
+function createCountriesTable(data){
+  var countriesTable = (
+    <div>
+      <div>
+        <p>N - corona-cases per 100,000 people per week</p>
+        <p>N<sub>e</sub> range - emulated N (сalculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)</p>
+        <p>Countries with a record this week are highlighted in red</p>
+      </div>
+      <table className="countries-table">
+          <thead>
+              <tr>
+                  <th>Country</th>
+                  <th>N</th>
+                  <th>N week ago</th>
+                  <th>N 2 weeks ago</th>
+                  <th>N<sub>e</sub> range</th>
+                  <th>Compared to last week</th>
+                  <th>Weekly dynamics</th>
+              </tr>
+          </thead>
+          <tbody>
+            {createCountryRows(data)}
+          </tbody>
+      </table>
+    </div>
+  );
+  return countriesTable;
+}
 
-var data = getJSON();
+function createCountryRows(data){
+  var countriesRows = data.map((country) =>
+    (<tr key={country.id} className={country.is_this_week_record?'record':''}>
+        <td>{country.country_name}</td>
+        <td>{country.cases_per_ht}</td>
+        <td>{country.cases_per_ht_week_ago}</td>
+        <td>{country.cases_per_ht_two_week_ago}</td>
+        <td>{country.es_from}-{country.es_to}</td>
+        <td className={country.estimation_match_symbol==">"?'more':''}>{country.estimation_match_symbol}</td>
+        <td>{country.direction}</td>
+    </tr>)
+  );
+  return countriesRows;
+}
 
-class App extends React.Component {
+function getContent() {
 
-  render() {
+  return getData().then(
+    function(response) {
+      if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+          response.status);
+        return;
+      }
 
-    // var element = (
-    //   <table className="table">
-    //       <thead>
-    //           <tr>
-    //               <th>Страна</th>
-    //               <th>Число случаев за 7 дней на 100 тыс.</th>
-    //               <th>Неделю назад</th>
-    //               <th>2 Недели назад</th>
-    //               <th>Эмулированное по смертям (макс)</th>
-    //               <th>Эмулированное по смертям (диапазон)</th>
-    //               <th>По отношению к прошлой неделе</th>
-    //               <th>Динамика за 7 дней</th>
-    //           </tr>
-    //       </thead>
-    //       <tbody>
-    //
-    //       </tbody>
-    //   </table>
-    // );
+      let countries_table = response.json().then(function(data) {
+        return createCountriesTable(data);
+      });
+      return countries_table;
+    }
+  )
+  .catch(function(err) {
+    console.log('Fetch Error :-S', err);
+  });
 
+}
+
+function App () {
+  return getContent().then(content => {
     return (
-        <div  className="container">Meow</div>
+        <div className="container">{content}</div>
     );
-  }
+  })
 };
 
-
-ReactDOM.render(<App/>, document.querySelector("#main"));
+App().then(app => {
+  ReactDOM.render(app, document.querySelector("#main"));
+})
