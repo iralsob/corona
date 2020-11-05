@@ -2,4 +2,35 @@
 /*
 * Custom
 */
+
 @import "common.scss";
+html {
+  background-color: #eae7dc;
+  color: #626262;
+  font-family: 'PT Sans Narrow', sans-serif;
+}
+.countries-table {
+  border-spacing: 0;
+  color: #f7f3e7;
+  th {
+    background-color: #8e8d8a;
+    font-weight: normal;
+  }
+  td {
+    text-align: right;
+    &:first-child {
+      text-align: left;
+    }
+    &.more {
+      background-color: rgba(232, 90, 79, 1);
+    }
+  }
+  th,td {
+    padding: 5px 10px;
+    min-width: 50px;
+    border-bottom: 1px solid #eae7dc;
+  }
+  .record {
+    background-color: rgba(232, 90, 79, .8);
+  }
+}
