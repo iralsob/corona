@@ -39,7 +39,6 @@ function createCountriesTable(data){
       <div>
         <p>N &ndash; corona-cases per 100,000 people per week</p>
         <p>N<sub>e</sub> &ndash; emulated N (сalculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)</p>
-        <p>R &ndash; reported corona-cases 2 weeks ago</p>
         <p>Countries with a record this week are highlighted in red</p>
       </div>
       <div className="countries-table__wrapper">
@@ -52,7 +51,7 @@ function createCountriesTable(data){
                       <th>N week ago</th>
                       <th>N 2&nbsp;weeks ago</th>
                       <th>N<sub>e</sub> range</th>
-                      <th>N<sub>e</sub> vs R 2&nbsp;weeks ago</th>
+                      <th>N<sub>e</sub> vs N 2&nbsp;weeks ago</th>
                       <th>Weekly dynamics</th>
                   </tr>
               </thead>
@@ -69,28 +68,29 @@ function createCountriesTable(data){
 }
 
 function createCountryRows(data){
-  var countriesRows = data.map((country) =>
-    (<tr key={country.id} className={country.is_this_week_record?'countries-table__row country record':'countries-table__row country'}>
+  var sortedCountries = data.sorted_countries;
+  var countriesRows = sortedCountries.map((country) =>
+    (<tr key={country.country_data.position} className={country.country_data.country_name==country.country_data.display_name?'countries-table__row country':'countries-table__row country record'}>
         <td className="country__name js-toggle-shadow-fc">
-          {country.country_name}
+          {country.country_data.country_name}
         </td>
         <td className="country__cases">
-          {country.cases_per_ht}
+          {country.country_data.incidence_today}
         </td>
         <td className="country__cases-week-ago">
-          {country.cases_per_ht_week_ago}
+          {country.country_data.incidence_7_days_ago}
         </td>
         <td className="country__cases-two-weeks-ago">
-          {country.cases_per_ht_two_week_ago}
+          {country.country_data.incidence_13_days_ago}
         </td>
         <td className="country__range">
-          {country.es_from}-{country.es_to}
+          {country.country_data.estimated_from}-{country.country_data.estimated_to}
         </td>
-        <td className={country.estimation_match_symbol==">"?'country__compared more':'country__compared'}>
-          {country.estimation_match_symbol}
+        <td className={country.country_data.estimation_match_symbol=="<"?'country__compared more':'country__compared'}>
+          N {country.country_data.estimation_match_symbol} N<sub>e</sub>
         </td>
         <td className="country__dynamic">
-          {country.direction}
+          {country.country_data.direction_symbols}
         </td>
     </tr>)
   );

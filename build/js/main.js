@@ -34,7 +34,7 @@ function handleScroll(e) {
 }
 
 function createCountriesTable(data) {
-  var countriesTable = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "N \u2013 corona-cases per 100,000 people per week"), /*#__PURE__*/React.createElement("p", null, "N", /*#__PURE__*/React.createElement("sub", null, "e"), " \u2013 emulated N (\u0441alculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)"), /*#__PURE__*/React.createElement("p", null, "R \u2013 reported corona-cases 2 weeks ago"), /*#__PURE__*/React.createElement("p", null, "Countries with a record this week are highlighted in red")), /*#__PURE__*/React.createElement("div", {
+  var countriesTable = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "N \u2013 corona-cases per 100,000 people per week"), /*#__PURE__*/React.createElement("p", null, "N", /*#__PURE__*/React.createElement("sub", null, "e"), " \u2013 emulated N (\u0441alculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)"), /*#__PURE__*/React.createElement("p", null, "Countries with a record this week are highlighted in red")), /*#__PURE__*/React.createElement("div", {
     className: "countries-table__wrapper"
   }, /*#__PURE__*/React.createElement("div", {
     className: "countries-table__wrap",
@@ -43,31 +43,32 @@ function createCountriesTable(data) {
     className: "countries-table"
   }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
     className: "js-toggle-shadow-fc"
-  }, "Country"), /*#__PURE__*/React.createElement("th", null, "N"), /*#__PURE__*/React.createElement("th", null, "N week ago"), /*#__PURE__*/React.createElement("th", null, "N 2\xA0weeks ago"), /*#__PURE__*/React.createElement("th", null, "N", /*#__PURE__*/React.createElement("sub", null, "e"), " range"), /*#__PURE__*/React.createElement("th", null, "N", /*#__PURE__*/React.createElement("sub", null, "e"), " vs R 2\xA0weeks ago"), /*#__PURE__*/React.createElement("th", null, "Weekly dynamics"))), /*#__PURE__*/React.createElement("tbody", null, createCountryRows(data))), /*#__PURE__*/React.createElement("div", {
+  }, "Country"), /*#__PURE__*/React.createElement("th", null, "N"), /*#__PURE__*/React.createElement("th", null, "N week ago"), /*#__PURE__*/React.createElement("th", null, "N 2\xA0weeks ago"), /*#__PURE__*/React.createElement("th", null, "N", /*#__PURE__*/React.createElement("sub", null, "e"), " range"), /*#__PURE__*/React.createElement("th", null, "N", /*#__PURE__*/React.createElement("sub", null, "e"), " vs N 2\xA0weeks ago"), /*#__PURE__*/React.createElement("th", null, "Weekly dynamics"))), /*#__PURE__*/React.createElement("tbody", null, createCountryRows(data))), /*#__PURE__*/React.createElement("div", {
     className: "countries-table__overflow js-toggle-shadow-w active"
   }))));
   return countriesTable;
 }
 
 function createCountryRows(data) {
-  var countriesRows = data.map(country => /*#__PURE__*/React.createElement("tr", {
-    key: country.id,
-    className: country.is_this_week_record ? 'countries-table__row country record' : 'countries-table__row country'
+  var sortedCountries = data.sorted_countries;
+  var countriesRows = sortedCountries.map(country => /*#__PURE__*/React.createElement("tr", {
+    key: country.country_data.position,
+    className: country.country_data.country_name == country.country_data.display_name ? 'countries-table__row country' : 'countries-table__row country record'
   }, /*#__PURE__*/React.createElement("td", {
     className: "country__name js-toggle-shadow-fc"
-  }, country.country_name), /*#__PURE__*/React.createElement("td", {
+  }, country.country_data.country_name), /*#__PURE__*/React.createElement("td", {
     className: "country__cases"
-  }, country.cases_per_ht), /*#__PURE__*/React.createElement("td", {
+  }, country.country_data.incidence_today), /*#__PURE__*/React.createElement("td", {
     className: "country__cases-week-ago"
-  }, country.cases_per_ht_week_ago), /*#__PURE__*/React.createElement("td", {
+  }, country.country_data.incidence_7_days_ago), /*#__PURE__*/React.createElement("td", {
     className: "country__cases-two-weeks-ago"
-  }, country.cases_per_ht_two_week_ago), /*#__PURE__*/React.createElement("td", {
+  }, country.country_data.incidence_13_days_ago), /*#__PURE__*/React.createElement("td", {
     className: "country__range"
-  }, country.es_from, "-", country.es_to), /*#__PURE__*/React.createElement("td", {
-    className: country.estimation_match_symbol == ">" ? 'country__compared more' : 'country__compared'
-  }, country.estimation_match_symbol), /*#__PURE__*/React.createElement("td", {
+  }, country.country_data.estimated_from, "-", country.country_data.estimated_to), /*#__PURE__*/React.createElement("td", {
+    className: country.country_data.estimation_match_symbol == "<" ? 'country__compared more' : 'country__compared'
+  }, "N ", country.country_data.estimation_match_symbol, " N", /*#__PURE__*/React.createElement("sub", null, "e")), /*#__PURE__*/React.createElement("td", {
     className: "country__dynamic"
-  }, country.direction)));
+  }, country.country_data.direction_symbols)));
   return countriesRows;
 }
 
