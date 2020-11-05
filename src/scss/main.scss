@@ -44,9 +44,14 @@ html {
 
   .country {
 
+
     &.record td {
       color: #f7f3e7;
       background-color: #e87369;
+
+      &.more {
+        background-color: #e85a4f;
+      }
     }
 
     &__compared,
