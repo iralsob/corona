@@ -46,8 +46,8 @@ html {
       background-color: #e87369;
     }
 
-    &_compared,
-    &_dynamic {
+    &__compared,
+    &__dynamic {
       text-align: center;
 
       &.more {
@@ -55,7 +55,22 @@ html {
       }
     }
   }
-  &_wrap {
+  &__wrap {
     overflow-x: auto;
+  }
+  &__wrapper {
+    position: relative;
+  }
+  &__overflow{
+    display: none;
+    position: absolute;
+    background: linear-gradient(90deg, transparent 0%, #eae7dc 100%);
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 90%;
+    &.active {
+      display: inline-block;
+    }
   }
 }
