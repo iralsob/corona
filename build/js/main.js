@@ -10,7 +10,7 @@ function createCountriesTable(data) {
     className: "countries-table_wrap"
   }, /*#__PURE__*/React.createElement("table", {
     className: "countries-table"
-  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Country"), /*#__PURE__*/React.createElement("th", null, "N"), /*#__PURE__*/React.createElement("th", null, "N week ago"), /*#__PURE__*/React.createElement("th", null, "N 2 weeks ago"), /*#__PURE__*/React.createElement("th", null, "N", /*#__PURE__*/React.createElement("sub", null, "e"), " range"), /*#__PURE__*/React.createElement("th", null, "Compared to last week"), /*#__PURE__*/React.createElement("th", null, "Weekly dynamics"))), /*#__PURE__*/React.createElement("tbody", null, createCountryRows(data)))));
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Country"), /*#__PURE__*/React.createElement("th", null, "N"), /*#__PURE__*/React.createElement("th", null, "N week ago"), /*#__PURE__*/React.createElement("th", null, "N 2\xA0weeks ago"), /*#__PURE__*/React.createElement("th", null, "N", /*#__PURE__*/React.createElement("sub", null, "e"), " range"), /*#__PURE__*/React.createElement("th", null, "Compared to last week"), /*#__PURE__*/React.createElement("th", null, "Weekly dynamics"))), /*#__PURE__*/React.createElement("tbody", null, createCountryRows(data)))));
   return countriesTable;
 }
 

@@ -18,7 +18,7 @@ function createCountriesTable(data){
                     <th>Country</th>
                     <th>N</th>
                     <th>N week ago</th>
-                    <th>N 2 weeks ago</th>
+                    <th>N 2&nbsp;weeks ago</th>
                     <th>N<sub>e</sub> range</th>
                     <th>Compared to last week</th>
                     <th>Weekly dynamics</th>

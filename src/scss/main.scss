@@ -11,21 +11,22 @@ html {
 
   th {
     font-weight: normal;
+    text-align: center;
 
     color: #f7f3e7;
     background-color: #8e8d8a;
   }
 
   td {
+    text-align: right;
+
     background-color: #eae7dc;
+    white-space: nowrap;
   }
 
   th,td {
     min-width: 50px;
     padding: 5px 10px;
-
-    white-space: nowrap;
-    text-align: right;
 
     border-bottom: 1px solid #eae7dc;
 
