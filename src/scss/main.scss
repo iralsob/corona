@@ -11,9 +11,9 @@ html {
 }
 .countries-table {
   border-spacing: 0;
-  color: #f7f3e7;
   th {
     background-color: #8e8d8a;
+    color: #f7f3e7;
     font-weight: normal;
   }
   td {
@@ -30,7 +30,14 @@ html {
     min-width: 50px;
     border-bottom: 1px solid #eae7dc;
   }
-  .record {
-    background-color: rgba(232, 90, 79, .8);
+  .country {
+    &.record {
+      background-color: rgba(232, 90, 79, .8);
+      color: #f7f3e7;
+    }
+    &_compared,
+    &_dynamic {
+      text-align: center;
+    }
   }
 }
