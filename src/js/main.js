@@ -90,7 +90,7 @@ function createCountryRows(data){
           {country.country_data.estimated_from}-{country.country_data.estimated_to}
         </td>
         <td className={country.country_data.estimation_match_symbol=="<"?'country__compared more':'country__compared'}>
-          N {country.country_data.estimation_match_symbol} N<sub>e</sub>
+          C {country.country_data.estimation_match_symbol} C<sub>e</sub>
         </td>
         <td className="country__death">
           {country.country_data.death_incidence_today.toFixed(2)}

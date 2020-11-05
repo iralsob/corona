@@ -66,7 +66,7 @@ function createCountryRows(data) {
     className: "country__range"
   }, country.country_data.estimated_from, "-", country.country_data.estimated_to), /*#__PURE__*/React.createElement("td", {
     className: country.country_data.estimation_match_symbol == "<" ? 'country__compared more' : 'country__compared'
-  }, "N ", country.country_data.estimation_match_symbol, " N", /*#__PURE__*/React.createElement("sub", null, "e")), /*#__PURE__*/React.createElement("td", {
+  }, "C ", country.country_data.estimation_match_symbol, " C", /*#__PURE__*/React.createElement("sub", null, "e")), /*#__PURE__*/React.createElement("td", {
     className: "country__death"
   }, country.country_data.death_incidence_today.toFixed(2)), /*#__PURE__*/React.createElement("td", {
     className: "country__death-max"
