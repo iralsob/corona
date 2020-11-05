@@ -3,6 +3,36 @@ function getData() {
   return fetch(url);
 }
 
+function handleScroll(e) {
+  var elm = e.target;
+  var scrollPosition = elm.scrollLeft;
+  var endScrollPosition = elm.scrollWidth - elm.offsetWidth;
+
+  var fcElements = document.getElementsByClassName("js-toggle-shadow-fc");
+  var wElements = document.getElementsByClassName("js-toggle-shadow-w");
+
+  if (scrollPosition == 0){
+    for (var i = 0; i < fcElements.length; i++) {
+       fcElements.item(i).classList.remove('active');
+    }
+  } else {
+    for (var i = 0; i < fcElements.length; i++) {
+       fcElements.item(i).classList.add('active');
+    }
+  }
+
+  if (scrollPosition == endScrollPosition) {
+    for (var i = 0; i < wElements.length; i++) {
+       wElements.item(i).classList.remove('active');
+    }
+  } else {
+    for (var i = 0; i < wElements.length; i++) {
+       wElements.item(i).classList.add('active');
+    }
+  }
+
+}
+
 function createCountriesTable(data){
   var countriesTable = (
     <div>
@@ -12,11 +42,11 @@ function createCountriesTable(data){
         <p>Countries with a record this week are highlighted in red</p>
       </div>
       <div className="countries-table__wrapper">
-        <div className="countries-table__wrap">
+        <div className="countries-table__wrap" onScroll={handleScroll}>
           <table className="countries-table">
               <thead>
                   <tr>
-                      <th>Country</th>
+                      <th className="js-toggle-shadow-fc">Country</th>
                       <th>N</th>
                       <th>N week ago</th>
                       <th>N 2&nbsp;weeks ago</th>
@@ -29,7 +59,7 @@ function createCountriesTable(data){
                 {createCountryRows(data)}
               </tbody>
           </table>
-          <div className="countries-table__overflow active"></div>
+          <div className="countries-table__overflow js-toggle-shadow-w active"></div>
         </div>
       </div>
     </div>
@@ -40,7 +70,7 @@ function createCountriesTable(data){
 function createCountryRows(data){
   var countriesRows = data.map((country) =>
     (<tr key={country.id} className={country.is_this_week_record?'countries-table__row country record':'countries-table__row country'}>
-        <td className="country__name">
+        <td className="country__name js-toggle-shadow-fc">
           {country.country_name}
         </td>
         <td className="country__cases">
