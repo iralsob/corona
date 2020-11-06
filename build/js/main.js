@@ -56,7 +56,7 @@ function createCountryRows(data) {
     className: country.country_data.country_name == country.country_data.display_name ? 'countries-table__row country' : 'countries-table__row country record'
   }, /*#__PURE__*/React.createElement("td", {
     className: "country__name js-toggle-shadow-fc"
-  }, country.country_data.country_name), /*#__PURE__*/React.createElement("td", {
+  }, country.country_data.country_name == 'United_States_of_America' ? 'USA' : country.country_data.country_name), /*#__PURE__*/React.createElement("td", {
     className: "country__cases"
   }, country.country_data.incidence_today), /*#__PURE__*/React.createElement("td", {
     className: "country__cases-week-ago"

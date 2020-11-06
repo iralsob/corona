@@ -76,7 +76,7 @@ function createCountryRows(data){
   var countriesRows = sortedCountries.map((country) =>
     (<tr key={country.country_data.position} className={country.country_data.country_name==country.country_data.display_name?'countries-table__row country':'countries-table__row country record'}>
         <td className="country__name js-toggle-shadow-fc">
-          {country.country_data.country_name}
+          {country.country_data.country_name=='United_States_of_America'?'USA':country.country_data.country_name}
         </td>
         <td className="country__cases">
           {country.country_data.incidence_today}
