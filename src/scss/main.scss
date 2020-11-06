@@ -10,6 +10,15 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 0 4em 0;
+}
+.container {
+  p {
+    margin: .5em 1em;
+    &:last-child {
+      margin-bottom: 2em;
+    }
+  }
 }
 .countries-table {
   border-spacing: 0;
