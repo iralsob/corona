@@ -83,14 +83,7 @@ gulp.task('build-fonts', function() {
         .pipe(gulp.dest(path.build.fonts))
 });
 
-
-gulp.task('build-data', function() {
-    gulp.src(path.src.data)
-        .pipe(gulp.dest(path.build.data))
-});
-
 gulp.task('watch', function(){
-watch([path.watch.data], gulp.parallel('build-data'));
     watch([path.watch.html], gulp.parallel('build-html'));
     watch([path.watch.style], gulp.parallel('build-style'));
     watch([path.watch.js], gulp.parallel('build-js'));

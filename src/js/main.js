@@ -1,5 +1,5 @@
 function getData() {
-  let url = 'https://irisob.github.io/corona/build/data/data.json';
+  let url = 'https://bretonium.net/countries.json';
   return fetch(url);
 }
 
@@ -38,7 +38,7 @@ function createCountriesTable(data){
     <div>
       <div>
         <p>C &ndash; corona-cases per 100,000 people per last week</p>
-        <p>C<sub>e</sub> &ndash; emulated C (сalculated by deaths in 7 days if the lethality of the virus is 0.5% or 1%)</p>
+        <p>C<sub>e</sub> &ndash; estimated C (сalculated by deaths in 13 days if the lethality of the virus is 0.5% or 1%)</p>
         <p>D &ndash; death per 100,000 people per last week</p>
         <p>Countries with a record this week are highlighted in red</p>
       </div>
@@ -50,12 +50,13 @@ function createCountriesTable(data){
                       <th className="js-toggle-shadow-fc">Country</th>
                       <th>C</th>
                       <th>C week ago</th>
-                      <th>C 2&nbsp;weeks ago</th>
+                      <th>C 13&nbsp;days ago</th>
                       <th>C<sub>e</sub> range</th>
-                      <th>C<sub>e</sub> vs C 2&nbsp;weeks ago</th>
+                      <th>C<sub>e</sub> vs C 13&nbsp;days ago</th>
                       <th>D</th>
                       <th>D max</th>
                       <th>Weekly dynamics</th>
+                      <th>Update</th>
                   </tr>
               </thead>
               <tbody>
@@ -100,6 +101,9 @@ function createCountryRows(data){
         </td>
         <td className="country__dynamic">
           {country.country_data.direction_symbols}
+        </td>
+        <td className="country__update">
+          {country.country_data.last_update_date}
         </td>
     </tr>)
   );
