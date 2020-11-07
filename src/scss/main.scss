@@ -42,7 +42,7 @@ body {
     min-width: 2em;
     padding: 5px 10px;
 
-    border-bottom: 1px solid #eae7dc;
+    border-top: 1px solid #8e8d8a;
 
     &:first-child {
       position: sticky;
@@ -60,14 +60,28 @@ body {
   }
 
   .country {
+    &:first-child {
+      td {
+        border-top:none !important;
+      }
+    }
 
 
-    &.record td {
-      color: #f7f3e7;
-      background-color: #e87369;
+    &.record {
+      td {
+        color: #f7f3e7;
+        background-color: #e87369;
+        border-color: #eae7dc;
 
-      &.more {
-        background-color: #e85a4f;
+        &.more {
+          background-color: #e85a4f;
+          border-color:#eae7dc;
+        }
+      }
+      &+tr:not(.record) {
+        td {
+          border-color:#eae7dc;
+        }
       }
     }
 
@@ -76,10 +90,9 @@ body {
       text-align: center;
 
       &.more {
-        background-color: #e85a4f;
-
         background-color: #e87369;
         color: #f7f3e7;
+        border-color: #f7f3e7;
       }
     }
   }
