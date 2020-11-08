@@ -9,11 +9,44 @@ function getData() {
 }
 
 class CountiesTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleScrollTable = this.handleScrollTable.bind(this);
+    this.state = {
+      currScrollPosition: 0,
+      reachEndScrollPosition: false
+    };
+  }
+
+  handleScrollTable(e) {
+    var elm = e.target;
+    this.setState({
+      currScrollPosition: elm.scrollLeft
+    });
+    var endScrollPosition = elm.scrollWidth - elm.offsetWidth - 10;
+
+    if (elm.scrollLeft >= endScrollPosition) {
+      this.setState({
+        reachEndScrollPosition: true
+      });
+    }
+  }
+
   getRowClass(name, displayName) {
     var className = 'countries-table__row country';
 
     if (name != displayName) {
       className += ' record';
+    }
+
+    return className;
+  }
+
+  getCountryClassName() {
+    var className = "country__name";
+
+    if (this.state.currScrollPosition > 0) {
+      className += ' active';
     }
 
     return className;
@@ -62,12 +95,22 @@ class CountiesTable extends React.Component {
     return content;
   }
 
+  getOverflowClassName() {
+    var overflowClassName = 'countries-table__overflow';
+
+    if (!this.state.reachEndScrollPosition) {
+      overflowClassName += ' active';
+    }
+
+    return overflowClassName;
+  }
+
   getCountriesRows(countries) {
     var countriesRows = countries.map(country => /*#__PURE__*/React.createElement("tr", {
       key: country.country_data.position,
       className: this.getRowClass(country.country_data.country_name, country.country_data.display_name)
     }, /*#__PURE__*/React.createElement("td", {
-      className: "country__name js-toggle-shadow-fc"
+      className: this.getCountryClassName()
     }, this.getCountyName(country.country_data.country_name)), /*#__PURE__*/React.createElement("td", {
       className: "country__cases"
     }, country.country_data.incidence_today), /*#__PURE__*/React.createElement("td", {
@@ -93,16 +136,23 @@ class CountiesTable extends React.Component {
   render() {
     const data = JSON.parse(getData());
     var sortedCountries = data.sorted_countries;
+    var hCountryClassName = '';
+
+    if (this.state.currScrollPosition != 0) {
+      hCountryClassName += 'active';
+    }
+
     return /*#__PURE__*/React.createElement("div", {
-      className: "countries-table__wrapper js-table"
+      className: "countries-table__wrapper"
     }, /*#__PURE__*/React.createElement("div", {
-      className: "countries-table__wrap"
+      className: "countries-table__wrap",
+      onScroll: this.handleScrollTable
     }, /*#__PURE__*/React.createElement("table", {
       className: "countries-table"
     }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-      className: "js-toggle-shadow-fc"
+      className: hCountryClassName
     }, "Country"), /*#__PURE__*/React.createElement("th", null, "C"), /*#__PURE__*/React.createElement("th", null, "C week ago"), /*#__PURE__*/React.createElement("th", null, "C 13\xA0days ago"), /*#__PURE__*/React.createElement("th", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " range"), /*#__PURE__*/React.createElement("th", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " vs C 13\xA0days ago"), /*#__PURE__*/React.createElement("th", null, "D"), /*#__PURE__*/React.createElement("th", null, "D max"), /*#__PURE__*/React.createElement("th", null, "Weekly dynamics"), /*#__PURE__*/React.createElement("th", null, "Update"))), /*#__PURE__*/React.createElement("tbody", null, this.getCountriesRows(sortedCountries))), /*#__PURE__*/React.createElement("div", {
-      className: "countries-table__overflow js-toggle-shadow-w active"
+      className: this.getOverflowClassName()
     })));
   }
 
@@ -110,7 +160,7 @@ class CountiesTable extends React.Component {
 
 class Content extends React.Component {
   render() {
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "C \u2013 corona-cases per 100,000 people per last week"), /*#__PURE__*/React.createElement("p", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " \u2013 estimated C (\u0441alculated by deaths in 13 days if the lethality of the virus is 0.5% or 1%)"), /*#__PURE__*/React.createElement("p", null, "D \u2013 death per 100,000 people per last week"), /*#__PURE__*/React.createElement("p", null, "Countries with a record this week are highlighted in red")), /*#__PURE__*/React.createElement(CountiesTable, null));
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "C \u2013 corona-cases per 100,000 people per last week"), /*#__PURE__*/React.createElement("p", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " \u2013 estimated C (\u0441alculated by deaths in 13 days if the lethality of the virus is 0.5% or 1%)"), /*#__PURE__*/React.createElement("p", null, "D \u2013 death per 100,000 people per last week"), /*#__PURE__*/React.createElement("p", null, "Countries with a record this week are highlighted in red."), /*#__PURE__*/React.createElement("p", null, "Cells in column C vs C", /*#__PURE__*/React.createElement("sub", null, "e"), " are highlighted in red, if\xA0C", /*#__PURE__*/React.createElement("sub", null, "e"), "\xA0is\xA0100%\xA0more")), /*#__PURE__*/React.createElement(CountiesTable, null));
   }
 
 }

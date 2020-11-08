@@ -8,10 +8,37 @@ function getData() {
 
 
 class CountiesTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleScrollTable = this.handleScrollTable.bind(this);
+    this.state = {
+      currScrollPosition: 0,
+      reachEndScrollPosition: false
+    };
+  }
+
+  handleScrollTable (e) {
+    var elm = e.target;
+
+    this.setState({currScrollPosition: elm.scrollLeft});
+
+    var endScrollPosition = elm.scrollWidth - elm.offsetWidth - 10;
+    if (elm.scrollLeft >= endScrollPosition) {
+      this.setState({reachEndScrollPosition: true});
+    }
+  }
+
   getRowClass (name, displayName) {
     var className = 'countries-table__row country';
     if (name != displayName) {
       className += ' record';
+    }
+    return className;
+  }
+  getCountryClassName () {
+    var className = "country__name";
+    if(this.state.currScrollPosition > 0){
+      className += ' active';
     }
     return className;
   }
@@ -49,6 +76,14 @@ class CountiesTable extends React.Component {
 
     return content;
   }
+  getOverflowClassName () {
+    var overflowClassName = 'countries-table__overflow';
+    if(!this.state.reachEndScrollPosition){
+      overflowClassName += ' active';
+    }
+    return overflowClassName;
+  }
+
   getCountriesRows (countries) {
     var countriesRows = countries.map((country) =>
         (<tr key={country.country_data.position}
@@ -57,7 +92,7 @@ class CountiesTable extends React.Component {
                 country.country_data.country_name,
                 country.country_data.display_name)
             }>
-            <td className="country__name js-toggle-shadow-fc">
+            <td className={this.getCountryClassName()}>
               {this.getCountyName(country.country_data.country_name)}
             </td>
             <td className="country__cases">
@@ -106,13 +141,20 @@ class CountiesTable extends React.Component {
     const data = JSON.parse(getData());
     var sortedCountries = data.sorted_countries;
 
+    var hCountryClassName = '';
+    if(this.state.currScrollPosition != 0){
+      hCountryClassName += 'active';
+    }
+
     return(
-      <div className="countries-table__wrapper js-table">
-        <div className="countries-table__wrap">
+      <div className="countries-table__wrapper">
+        <div
+          className="countries-table__wrap"
+          onScroll={this.handleScrollTable}>
           <table className="countries-table">
               <thead>
                   <tr>
-                      <th className="js-toggle-shadow-fc">Country</th>
+                      <th className={hCountryClassName}>Country</th>
                       <th>C</th>
                       <th>C week ago</th>
                       <th>C 13&nbsp;days ago</th>
@@ -128,7 +170,7 @@ class CountiesTable extends React.Component {
                 {this.getCountriesRows(sortedCountries)}
               </tbody>
           </table>
-          <div className="countries-table__overflow js-toggle-shadow-w active"></div>
+          <div className={this.getOverflowClassName()}></div>
         </div>
       </div>);
   }
@@ -139,9 +181,15 @@ class Content extends React.Component {
         <div>
           <div>
             <p>C &ndash; corona-cases per 100,000 people per last week</p>
-            <p>C<sub>e</sub> &ndash; estimated C (сalculated by deaths in 13 days if the lethality of the virus is 0.5% or 1%)</p>
+            <p>C<sub>e</sub> &ndash; estimated C (сalculated by deaths
+              in 13 days if the lethality of the virus is 0.5% or 1%)</p>
             <p>D &ndash; death per 100,000 people per last week</p>
-            <p>Countries with a record this week are highlighted in red</p>
+            <p>
+              Countries with a record this week are highlighted in red.
+            </p>
+            <p>Cells in column C vs C<sub>e</sub> are highlighted in red,
+              if&nbsp;C<sub>e</sub>&nbsp;is&nbsp;100%&nbsp;more
+            </p>
           </div>
           {<CountiesTable />}
         </div>
