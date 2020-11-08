@@ -8,11 +8,57 @@ function getData() {
 
 
 class CountiesTable extends React.Component {
+  getRowClass (name, displayName) {
+    var className = 'countries-table__row country';
+    if (name != displayName) {
+      className += ' record';
+    }
+    return className;
+  }
+  getCountyName (countryName) {
+    if (countryName == 'United_States_of_America') {
+      countryName = 'USA';
+    }
+    return countryName;
+  }
+  getCountryRange (estimatedFrom, estimatedTo) {
+    var range = estimatedFrom+' - '+estimatedTo;
+    return range;
+  }
+  getCompareClass (estimatedFrom, estimatedTo, incidence) {
+    var className = 'country__compared';
+    if (incidence < estimatedFrom) {
+      var difference = (estimatedFrom*100/incidence - 100).toFixed();
+      if (difference >= 100){
+        className += ' more';
+      }
+    }
+    return className;
+  }
+  getCompareContent (estimatedFrom, estimatedTo, incidence) {
+    var content;
+    if (incidence < estimatedFrom) {
+      content = (estimatedFrom*100/incidence - 100).toFixed();
+      content += '%';
+    } else if (incidence > estimatedTo) {
+      content = (estimatedTo*100/incidence - 100).toFixed();
+      content += '%';
+    }  else {
+      content = 'within range';
+    }
+
+    return content;
+  }
   getCountriesRows (countries) {
     var countriesRows = countries.map((country) =>
-        (<tr key={country.country_data.position} className={country.country_data.country_name==country.country_data.display_name?'countries-table__row country':'countries-table__row country record'}>
+        (<tr key={country.country_data.position}
+            className={
+              this.getRowClass(
+                country.country_data.country_name,
+                country.country_data.display_name)
+            }>
             <td className="country__name js-toggle-shadow-fc">
-              {country.country_data.country_name=='United_States_of_America'?'USA':country.country_data.country_name}
+              {this.getCountyName(country.country_data.country_name)}
             </td>
             <td className="country__cases">
               {country.country_data.incidence_today}
@@ -24,10 +70,21 @@ class CountiesTable extends React.Component {
               {country.country_data.incidence_13_days_ago}
             </td>
             <td className="country__range">
-              {country.country_data.estimated_from}-{country.country_data.estimated_to}
+              {this.getCountryRange(
+                country.country_data.estimated_from,
+                country.country_data.estimated_to)}
             </td>
-            <td className={country.country_data.estimation_match_symbol=="<"?'country__compared more':'country__compared'}>
-              {(country.country_data.estimated_from*100/country.country_data.incidence_13_days_ago-100).toFixed()}%
+            <td className={
+              this.getCompareClass(
+                country.country_data.estimated_from,
+                country.country_data.estimated_to,
+                country.country_data.incidence_13_days_ago)
+              }>
+              {this.getCompareContent(
+                country.country_data.estimated_from,
+                country.country_data.estimated_to,
+                country.country_data.incidence_13_days_ago)
+              }
             </td>
             <td className="country__death">
               {country.country_data.death_incidence_today.toFixed(2)}
