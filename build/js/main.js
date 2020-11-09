@@ -50,7 +50,7 @@ class CountiesTable extends React.Component {
     }
   }
 
-  getRowClass(name, displayName) {
+  getRowClassName(name, displayName) {
     var className = 'countries-table__row country';
 
     if (name != displayName) {
@@ -83,7 +83,7 @@ class CountiesTable extends React.Component {
     return range;
   }
 
-  getCompareClass(estimatedFrom, estimatedTo, incidence) {
+  getCompareClassName(estimatedFrom, estimatedTo, incidence) {
     var className = 'country__compared';
 
     if (incidence < estimatedFrom) {
@@ -126,7 +126,7 @@ class CountiesTable extends React.Component {
   getCountriesRows(countries) {
     var countriesRows = countries.map(country => /*#__PURE__*/React.createElement("tr", {
       key: country.country_data.position,
-      className: this.getRowClass(country.country_data.country_name, country.country_data.display_name)
+      className: this.getRowClassName(country.country_data.country_name, country.country_data.display_name)
     }, /*#__PURE__*/React.createElement("td", {
       className: this.getCountryClassName()
     }, this.getCountyName(country.country_data.country_name)), /*#__PURE__*/React.createElement("td", {
@@ -138,7 +138,7 @@ class CountiesTable extends React.Component {
     }, country.country_data.incidence_13_days_ago), /*#__PURE__*/React.createElement("td", {
       className: "country__range"
     }, this.getCountryRange(country.country_data.estimated_from, country.country_data.estimated_to)), /*#__PURE__*/React.createElement("td", {
-      className: this.getCompareClass(country.country_data.estimated_from, country.country_data.estimated_to, country.country_data.incidence_13_days_ago)
+      className: this.getCompareClassName(country.country_data.estimated_from, country.country_data.estimated_to, country.country_data.incidence_13_days_ago)
     }, this.getCompareContent(country.country_data.estimated_from, country.country_data.estimated_to, country.country_data.incidence_13_days_ago)), /*#__PURE__*/React.createElement("td", {
       className: "country__death"
     }, country.country_data.death_incidence_today.toFixed(2)), /*#__PURE__*/React.createElement("td", {

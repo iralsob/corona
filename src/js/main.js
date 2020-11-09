@@ -46,7 +46,7 @@ class CountiesTable extends React.Component {
       this.setState({reachEndScrollPosition: false});
     }
   }
-  getRowClass (name, displayName) {
+  getRowClassName (name, displayName) {
     var className = 'countries-table__row country';
     if (name != displayName) {
       className += ' record';
@@ -70,7 +70,7 @@ class CountiesTable extends React.Component {
     var range = estimatedFrom+' - '+estimatedTo;
     return range;
   }
-  getCompareClass (estimatedFrom, estimatedTo, incidence) {
+  getCompareClassName (estimatedFrom, estimatedTo, incidence) {
     var className = 'country__compared';
     if (incidence < estimatedFrom) {
       var difference = (estimatedFrom*100/incidence - 100).toFixed();
@@ -106,7 +106,7 @@ class CountiesTable extends React.Component {
     var countriesRows = countries.map((country) =>
       (<tr key={country.country_data.position}
           className={
-            this.getRowClass(
+            this.getRowClassName(
               country.country_data.country_name,
               country.country_data.display_name)
           }>
@@ -128,7 +128,7 @@ class CountiesTable extends React.Component {
             country.country_data.estimated_to)}
         </td>
         <td className={
-          this.getCompareClass(
+          this.getCompareClassName(
             country.country_data.estimated_from,
             country.country_data.estimated_to,
             country.country_data.incidence_13_days_ago)
