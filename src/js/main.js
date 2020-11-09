@@ -3,7 +3,7 @@ function getData() {
   return fetch(url);
 }
 
-class CountiesTable extends React.Component {
+class CountriesTable extends React.Component {
   constructor(props) {
     super(props);
     this.handleScrollTable = this.handleScrollTable.bind(this);
@@ -222,7 +222,7 @@ class Content extends React.Component {
               if&nbsp;C<sub>e</sub>&nbsp;is&nbsp;100%&nbsp;more
             </p>
           </div>
-          {<CountiesTable />}
+          {<CountriesTable />}
         </div>
       );
     }
