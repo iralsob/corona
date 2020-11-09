@@ -1,11 +1,8 @@
 "use strict";
 
 function getData() {
-  const Http = new XMLHttpRequest();
-  const url = 'https://bretonium.net/countries.json';
-  Http.open("GET", url, false);
-  Http.send();
-  return Http.responseText;
+  let url = 'https://bretonium.net/countries.json';
+  return fetch(url);
 }
 
 class CountiesTable extends React.Component {
@@ -14,8 +11,25 @@ class CountiesTable extends React.Component {
     this.handleScrollTable = this.handleScrollTable.bind(this);
     this.state = {
       currScrollPosition: 0,
-      reachEndScrollPosition: false
+      reachEndScrollPosition: false,
+      error: 0,
+      isLoaded: false,
+      countries: {}
     };
+  }
+
+  componentDidMount() {
+    getData().then(res => res.json()).then(result => {
+      this.setState({
+        isLoaded: true,
+        countries: result
+      });
+    }, error => {
+      this.setState({
+        isLoaded: true,
+        error: error
+      });
+    });
   }
 
   handleScrollTable(e) {
@@ -28,6 +42,10 @@ class CountiesTable extends React.Component {
     if (elm.scrollLeft >= endScrollPosition) {
       this.setState({
         reachEndScrollPosition: true
+      });
+    } else {
+      this.setState({
+        reachEndScrollPosition: false
       });
     }
   }
@@ -134,26 +152,35 @@ class CountiesTable extends React.Component {
   }
 
   render() {
-    const data = JSON.parse(getData());
-    var sortedCountries = data.sorted_countries;
-    var hCountryClassName = '';
+    const error = this.state.error,
+          isLoaded = this.state.isLoaded,
+          data = this.state.countries;
 
-    if (this.state.currScrollPosition != 0) {
-      hCountryClassName += 'active';
+    if (error) {
+      return /*#__PURE__*/React.createElement("div", null, "Error: ", error);
+    } else if (!isLoaded) {
+      return /*#__PURE__*/React.createElement("div", null, "Loading...");
+    } else {
+      var sortedCountries = data.sorted_countries;
+      var hCountryClassName = '';
+
+      if (this.state.currScrollPosition != 0) {
+        hCountryClassName += 'active';
+      }
+
+      return /*#__PURE__*/React.createElement("div", {
+        className: "countries-table__wrapper"
+      }, /*#__PURE__*/React.createElement("div", {
+        className: "countries-table__wrap",
+        onScroll: this.handleScrollTable
+      }, /*#__PURE__*/React.createElement("table", {
+        className: "countries-table"
+      }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+        className: hCountryClassName
+      }, "Country"), /*#__PURE__*/React.createElement("th", null, "C"), /*#__PURE__*/React.createElement("th", null, "C week ago"), /*#__PURE__*/React.createElement("th", null, "C 13\xA0days ago"), /*#__PURE__*/React.createElement("th", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " range"), /*#__PURE__*/React.createElement("th", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " vs C 13\xA0days ago"), /*#__PURE__*/React.createElement("th", null, "D"), /*#__PURE__*/React.createElement("th", null, "D max"), /*#__PURE__*/React.createElement("th", null, "Weekly dynamics"), /*#__PURE__*/React.createElement("th", null, "Update"))), /*#__PURE__*/React.createElement("tbody", null, this.getCountriesRows(sortedCountries))), /*#__PURE__*/React.createElement("div", {
+        className: this.getOverflowClassName()
+      })));
     }
-
-    return /*#__PURE__*/React.createElement("div", {
-      className: "countries-table__wrapper"
-    }, /*#__PURE__*/React.createElement("div", {
-      className: "countries-table__wrap",
-      onScroll: this.handleScrollTable
-    }, /*#__PURE__*/React.createElement("table", {
-      className: "countries-table"
-    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-      className: hCountryClassName
-    }, "Country"), /*#__PURE__*/React.createElement("th", null, "C"), /*#__PURE__*/React.createElement("th", null, "C week ago"), /*#__PURE__*/React.createElement("th", null, "C 13\xA0days ago"), /*#__PURE__*/React.createElement("th", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " range"), /*#__PURE__*/React.createElement("th", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " vs C 13\xA0days ago"), /*#__PURE__*/React.createElement("th", null, "D"), /*#__PURE__*/React.createElement("th", null, "D max"), /*#__PURE__*/React.createElement("th", null, "Weekly dynamics"), /*#__PURE__*/React.createElement("th", null, "Update"))), /*#__PURE__*/React.createElement("tbody", null, this.getCountriesRows(sortedCountries))), /*#__PURE__*/React.createElement("div", {
-      className: this.getOverflowClassName()
-    })));
   }
 
 }

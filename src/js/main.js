@@ -1,11 +1,7 @@
 function getData() {
-  const Http = new XMLHttpRequest();
-  const url='https://bretonium.net/countries.json';
-  Http.open("GET", url, false);
-  Http.send();
-  return Http.responseText;
+  let url = 'https://bretonium.net/countries.json';
+  return fetch(url);
 }
-
 
 class CountiesTable extends React.Component {
   constructor(props) {
@@ -13,8 +9,29 @@ class CountiesTable extends React.Component {
     this.handleScrollTable = this.handleScrollTable.bind(this);
     this.state = {
       currScrollPosition: 0,
-      reachEndScrollPosition: false
+      reachEndScrollPosition: false,
+      error: 0,
+      isLoaded: false,
+      countries: {}
     };
+  }
+
+  componentDidMount(){
+    getData().then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({
+          isLoaded: true,
+          countries: result
+        });
+      },
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error: error
+        });
+      }
+    );
   }
 
   handleScrollTable (e) {
@@ -25,9 +42,10 @@ class CountiesTable extends React.Component {
     var endScrollPosition = elm.scrollWidth - elm.offsetWidth - 10;
     if (elm.scrollLeft >= endScrollPosition) {
       this.setState({reachEndScrollPosition: true});
+    } else {
+      this.setState({reachEndScrollPosition: false});
     }
   }
-
   getRowClass (name, displayName) {
     var className = 'countries-table__row country';
     if (name != displayName) {
@@ -86,93 +104,103 @@ class CountiesTable extends React.Component {
 
   getCountriesRows (countries) {
     var countriesRows = countries.map((country) =>
-        (<tr key={country.country_data.position}
-            className={
-              this.getRowClass(
-                country.country_data.country_name,
-                country.country_data.display_name)
-            }>
-            <td className={this.getCountryClassName()}>
-              {this.getCountyName(country.country_data.country_name)}
-            </td>
-            <td className="country__cases">
-              {country.country_data.incidence_today}
-            </td>
-            <td className="country__cases-week-ago">
-              {country.country_data.incidence_7_days_ago}
-            </td>
-            <td className="country__cases-two-weeks-ago">
-              {country.country_data.incidence_13_days_ago}
-            </td>
-            <td className="country__range">
-              {this.getCountryRange(
-                country.country_data.estimated_from,
-                country.country_data.estimated_to)}
-            </td>
-            <td className={
-              this.getCompareClass(
-                country.country_data.estimated_from,
-                country.country_data.estimated_to,
-                country.country_data.incidence_13_days_ago)
-              }>
-              {this.getCompareContent(
-                country.country_data.estimated_from,
-                country.country_data.estimated_to,
-                country.country_data.incidence_13_days_ago)
-              }
-            </td>
-            <td className="country__death">
-              {country.country_data.death_incidence_today.toFixed(2)}
-            </td>
-            <td className="country__death-max">
-              {country.country_data.record_death_incidence.toFixed(2)}
-            </td>
-            <td className="country__dynamic">
-              {country.country_data.direction_symbols}
-            </td>
-            <td className="country__update">
-              {country.country_data.last_update_date}
-            </td>
-        </tr>));
+      (<tr key={country.country_data.position}
+          className={
+            this.getRowClass(
+              country.country_data.country_name,
+              country.country_data.display_name)
+          }>
+        <td className={this.getCountryClassName()}>
+          {this.getCountyName(country.country_data.country_name)}
+        </td>
+        <td className="country__cases">
+          {country.country_data.incidence_today}
+        </td>
+        <td className="country__cases-week-ago">
+          {country.country_data.incidence_7_days_ago}
+        </td>
+        <td className="country__cases-two-weeks-ago">
+          {country.country_data.incidence_13_days_ago}
+        </td>
+        <td className="country__range">
+          {this.getCountryRange(
+            country.country_data.estimated_from,
+            country.country_data.estimated_to)}
+        </td>
+        <td className={
+          this.getCompareClass(
+            country.country_data.estimated_from,
+            country.country_data.estimated_to,
+            country.country_data.incidence_13_days_ago)
+          }>
+          {this.getCompareContent(
+            country.country_data.estimated_from,
+            country.country_data.estimated_to,
+            country.country_data.incidence_13_days_ago)
+          }
+        </td>
+        <td className="country__death">
+          {country.country_data.death_incidence_today.toFixed(2)}
+        </td>
+        <td className="country__death-max">
+          {country.country_data.record_death_incidence.toFixed(2)}
+        </td>
+        <td className="country__dynamic">
+          {country.country_data.direction_symbols}
+        </td>
+        <td className="country__update">
+          {country.country_data.last_update_date}
+        </td>
+      </tr>)
+    );
     return countriesRows;
   }
 
   render() {
-    const data = JSON.parse(getData());
-    var sortedCountries = data.sorted_countries;
+    const error = this.state.error,
+      isLoaded = this.state.isLoaded,
+      data = this.state.countries;
 
-    var hCountryClassName = '';
-    if(this.state.currScrollPosition != 0){
-      hCountryClassName += 'active';
-    }
+    if (error) {
+      return <div>Error: {error}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      var sortedCountries = data.sorted_countries;
 
-    return(
-      <div className="countries-table__wrapper">
-        <div
-          className="countries-table__wrap"
-          onScroll={this.handleScrollTable}>
-          <table className="countries-table">
+      var hCountryClassName = '';
+      if(this.state.currScrollPosition != 0){
+        hCountryClassName += 'active';
+      }
+      return(
+        <div className="countries-table__wrapper">
+          <div
+            className="countries-table__wrap"
+            onScroll={this.handleScrollTable}>
+            <table className="countries-table">
               <thead>
-                  <tr>
-                      <th className={hCountryClassName}>Country</th>
-                      <th>C</th>
-                      <th>C week ago</th>
-                      <th>C 13&nbsp;days ago</th>
-                      <th>C<sub>e</sub> range</th>
-                      <th>C<sub>e</sub> vs C 13&nbsp;days ago</th>
-                      <th>D</th>
-                      <th>D max</th>
-                      <th>Weekly dynamics</th>
-                      <th>Update</th>
-                  </tr>
+                <tr>
+                  <th className={hCountryClassName}>Country</th>
+                  <th>C</th>
+                  <th>C week ago</th>
+                  <th>C 13&nbsp;days ago</th>
+                  <th>C<sub>e</sub> range</th>
+                  <th>C<sub>e</sub> vs C 13&nbsp;days ago</th>
+                  <th>D</th>
+                  <th>D max</th>
+                  <th>Weekly dynamics</th>
+                  <th>Update</th>
+                </tr>
               </thead>
               <tbody>
                 {this.getCountriesRows(sortedCountries)}
               </tbody>
-          </table>
-          <div className={this.getOverflowClassName()}></div>
+            </table>
+            <div className={this.getOverflowClassName()}></div>
+          </div>
         </div>
-      </div>);
+      );
+    }
   }
 }
 class Content extends React.Component {
