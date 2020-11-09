@@ -101,7 +101,7 @@ class CountiesTable extends React.Component {
     var content;
 
     if (incidence < estimatedFrom) {
-      content = (estimatedFrom * 100 / incidence - 100).toFixed();
+      content = '+' + (estimatedFrom * 100 / incidence - 100).toFixed();
       content += '%';
     } else if (incidence > estimatedTo) {
       content = (estimatedTo * 100 / incidence - 100).toFixed();
