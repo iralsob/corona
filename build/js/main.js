@@ -70,6 +70,16 @@ class CountriesTable extends React.Component {
     return className;
   }
 
+  getRegionClassName() {
+    var className = '';
+
+    if (this.state.currScrollPosition > 0) {
+      className += ' active';
+    }
+
+    return className;
+  }
+
   getCountyName(countryName) {
     if (countryName == 'United_States_of_America') {
       countryName = 'USA';
@@ -78,9 +88,27 @@ class CountriesTable extends React.Component {
     return countryName;
   }
 
+  getRegionName(regionName) {
+    if (regionName == 'Yamalo-Nenets Autonomous Okrug') {
+      regionName = 'YaNAO';
+    }
+
+    return regionName;
+  }
+
   getCountryRange(estimatedFrom, estimatedTo) {
     var range = estimatedFrom + ' - ' + estimatedTo;
     return range;
+  }
+
+  getRegionRange(rangeFrom, rangeTo) {
+    var rangeContent = '-';
+
+    if (rangeFrom) {
+      rangeContent = rangeFrom + ' - ' + rangeTo;
+    }
+
+    return rangeContent;
   }
 
   getCompareClassName(estimatedFrom, estimatedTo, incidence) {
@@ -123,6 +151,11 @@ class CountriesTable extends React.Component {
     return overflowClassName;
   }
 
+  getCountriesSubRows(regions) {
+    var regions = /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, "1"));
+    return regions;
+  }
+
   getCountriesRows(countries) {
     var countriesRows = countries.map(function (countryData) {
       var country = countryData.country_data;
@@ -150,7 +183,20 @@ class CountriesTable extends React.Component {
       }, country.direction_symbols), /*#__PURE__*/React.createElement("td", {
         className: "country__update"
       }, country.last_update_date));
-      return countryRow;
+      var regions = countryData.regions;
+
+      if (regions.length) {
+        var regionRows = regions.map(region => /*#__PURE__*/React.createElement("tr", {
+          key: region.region_data.region_name,
+          className: "country__region"
+        }, /*#__PURE__*/React.createElement("td", {
+          className: this.getRegionClassName()
+        }, this.getRegionName(region.region_data.region_name)), /*#__PURE__*/React.createElement("td", null, region.region_data.incidence_today), /*#__PURE__*/React.createElement("td", null, region.region_data.incidence_7_days_ago > 0 ? region.region_data.incidence_7_days_ago : '-'), /*#__PURE__*/React.createElement("td", null, region.region_data.incidence_13_days_ago > 0 ? region.region_data.incidence_13_days_ago : '-'), /*#__PURE__*/React.createElement("td", null, this.getRegionRange(region.region_data.estimated_from, region.region_data.estimated_t)), /*#__PURE__*/React.createElement("td", {
+          className: "country__region_compared"
+        }, "-"), /*#__PURE__*/React.createElement("td", null, "-"), /*#__PURE__*/React.createElement("td", null, "-"), /*#__PURE__*/React.createElement("td", null, "-"), /*#__PURE__*/React.createElement("td", null, region.region_data.last_update_date)));
+      }
+
+      return [countryRow, regionRows];
     }.bind(this));
     return countriesRows;
   }

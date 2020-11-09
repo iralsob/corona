@@ -60,15 +60,35 @@ class CountriesTable extends React.Component {
     }
     return className;
   }
+  getRegionClassName () {
+    var className = '';
+    if(this.state.currScrollPosition > 0){
+      className += ' active';
+    }
+    return className;
+  }
   getCountyName (countryName) {
     if (countryName == 'United_States_of_America') {
       countryName = 'USA';
     }
     return countryName;
   }
+  getRegionName (regionName) {
+    if (regionName == 'Yamalo-Nenets Autonomous Okrug') {
+      regionName = 'YaNAO';
+    }
+    return regionName;
+  }
   getCountryRange (estimatedFrom, estimatedTo) {
     var range = estimatedFrom+' - '+estimatedTo;
     return range;
+  }
+  getRegionRange(rangeFrom, rangeTo) {
+    var rangeContent = '-';
+    if (rangeFrom){
+      rangeContent = rangeFrom + ' - ' + rangeTo;
+    }
+    return rangeContent;
   }
   getCompareClassName (estimatedFrom, estimatedTo, incidence) {
     var className = 'country__compared';
@@ -101,7 +121,10 @@ class CountriesTable extends React.Component {
     }
     return overflowClassName;
   }
-
+  getCountriesSubRows(regions){
+    var regions = (<tr><td>1</td></tr>);
+    return regions;
+  }
   getCountriesRows (countries) {
     var countriesRows = countries.map(function(countryData) {
       var country = countryData.country_data;
@@ -153,8 +176,43 @@ class CountriesTable extends React.Component {
           {country.last_update_date}
         </td>
       </tr>);
-      return countryRow;
+
+
+      var regions = countryData.regions;
+      if(regions.length) {
+        var regionRows = regions.map((region) =>
+          (<tr  key={region.region_data.region_name}
+                className="country__region">
+            <td className={this.getRegionClassName()}>
+              {this.getRegionName(region.region_data.region_name)}
+            </td>
+            <td>{region.region_data.incidence_today}</td>
+            <td>{region.region_data.incidence_7_days_ago>0
+              ?region.region_data.incidence_7_days_ago
+              :'-'}</td>
+            <td>{region.region_data.incidence_13_days_ago>0
+              ?region.region_data.incidence_13_days_ago
+              :'-'}</td>
+            <td>
+              {this.getRegionRange(region.region_data.estimated_from,
+                  region.region_data.estimated_t)}
+            </td>
+            <td className="country__region_compared">-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>{region.region_data.last_update_date}</td>
+            </tr>)
+        );
+      }
+
+
+      return [countryRow, regionRows];
     }.bind(this));
+
+
+
+
 
     return countriesRows;
   }

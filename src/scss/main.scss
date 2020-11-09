@@ -65,6 +65,17 @@ body {
         border-top:none !important;
       }
     }
+    &__region {
+      td:first-child {
+        text-align: right;
+      }
+      td {
+        border-top-style: dotted;
+      }
+      &_compared {
+        text-align: center;
+      }
+    }
 
 
     &.record {
