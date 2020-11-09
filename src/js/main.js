@@ -103,56 +103,59 @@ class CountiesTable extends React.Component {
   }
 
   getCountriesRows (countries) {
-    var countriesRows = countries.map((country) =>
-      (<tr key={country.country_data.position}
+    var countriesRows = countries.map(function(countryData) {
+      var country = countryData.country_data;
+      var countryRow = (<tr key={country.position}
           className={
             this.getRowClassName(
-              country.country_data.country_name,
-              country.country_data.display_name)
+              country.country_name,
+              country.display_name)
           }>
         <td className={this.getCountryClassName()}>
-          {this.getCountyName(country.country_data.country_name)}
+          {this.getCountyName(country.country_name)}
         </td>
         <td className="country__cases">
-          {country.country_data.incidence_today}
+          {country.incidence_today}
         </td>
         <td className="country__cases-week-ago">
-          {country.country_data.incidence_7_days_ago}
+          {country.incidence_7_days_ago}
         </td>
         <td className="country__cases-two-weeks-ago">
-          {country.country_data.incidence_13_days_ago}
+          {country.incidence_13_days_ago}
         </td>
         <td className="country__range">
           {this.getCountryRange(
-            country.country_data.estimated_from,
-            country.country_data.estimated_to)}
+            country.estimated_from,
+            country.estimated_to)}
         </td>
         <td className={
           this.getCompareClassName(
-            country.country_data.estimated_from,
-            country.country_data.estimated_to,
-            country.country_data.incidence_13_days_ago)
+            country.estimated_from,
+            country.estimated_to,
+            country.incidence_13_days_ago)
           }>
           {this.getCompareContent(
-            country.country_data.estimated_from,
-            country.country_data.estimated_to,
-            country.country_data.incidence_13_days_ago)
+            country.estimated_from,
+            country.estimated_to,
+            country.incidence_13_days_ago)
           }
         </td>
         <td className="country__death">
-          {country.country_data.death_incidence_today.toFixed(2)}
+          {country.death_incidence_today.toFixed(2)}
         </td>
         <td className="country__death-max">
-          {country.country_data.record_death_incidence.toFixed(2)}
+          {country.record_death_incidence.toFixed(2)}
         </td>
         <td className="country__dynamic">
-          {country.country_data.direction_symbols}
+          {country.direction_symbols}
         </td>
         <td className="country__update">
-          {country.country_data.last_update_date}
+          {country.last_update_date}
         </td>
-      </tr>)
-    );
+      </tr>);
+      return countryRow;
+    }.bind(this));
+
     return countriesRows;
   }
 

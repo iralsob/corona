@@ -124,30 +124,34 @@ class CountiesTable extends React.Component {
   }
 
   getCountriesRows(countries) {
-    var countriesRows = countries.map(country => /*#__PURE__*/React.createElement("tr", {
-      key: country.country_data.position,
-      className: this.getRowClassName(country.country_data.country_name, country.country_data.display_name)
-    }, /*#__PURE__*/React.createElement("td", {
-      className: this.getCountryClassName()
-    }, this.getCountyName(country.country_data.country_name)), /*#__PURE__*/React.createElement("td", {
-      className: "country__cases"
-    }, country.country_data.incidence_today), /*#__PURE__*/React.createElement("td", {
-      className: "country__cases-week-ago"
-    }, country.country_data.incidence_7_days_ago), /*#__PURE__*/React.createElement("td", {
-      className: "country__cases-two-weeks-ago"
-    }, country.country_data.incidence_13_days_ago), /*#__PURE__*/React.createElement("td", {
-      className: "country__range"
-    }, this.getCountryRange(country.country_data.estimated_from, country.country_data.estimated_to)), /*#__PURE__*/React.createElement("td", {
-      className: this.getCompareClassName(country.country_data.estimated_from, country.country_data.estimated_to, country.country_data.incidence_13_days_ago)
-    }, this.getCompareContent(country.country_data.estimated_from, country.country_data.estimated_to, country.country_data.incidence_13_days_ago)), /*#__PURE__*/React.createElement("td", {
-      className: "country__death"
-    }, country.country_data.death_incidence_today.toFixed(2)), /*#__PURE__*/React.createElement("td", {
-      className: "country__death-max"
-    }, country.country_data.record_death_incidence.toFixed(2)), /*#__PURE__*/React.createElement("td", {
-      className: "country__dynamic"
-    }, country.country_data.direction_symbols), /*#__PURE__*/React.createElement("td", {
-      className: "country__update"
-    }, country.country_data.last_update_date)));
+    var countriesRows = countries.map(function (countryData) {
+      var country = countryData.country_data;
+      var countryRow = /*#__PURE__*/React.createElement("tr", {
+        key: country.position,
+        className: this.getRowClassName(country.country_name, country.display_name)
+      }, /*#__PURE__*/React.createElement("td", {
+        className: this.getCountryClassName()
+      }, this.getCountyName(country.country_name)), /*#__PURE__*/React.createElement("td", {
+        className: "country__cases"
+      }, country.incidence_today), /*#__PURE__*/React.createElement("td", {
+        className: "country__cases-week-ago"
+      }, country.incidence_7_days_ago), /*#__PURE__*/React.createElement("td", {
+        className: "country__cases-two-weeks-ago"
+      }, country.incidence_13_days_ago), /*#__PURE__*/React.createElement("td", {
+        className: "country__range"
+      }, this.getCountryRange(country.estimated_from, country.estimated_to)), /*#__PURE__*/React.createElement("td", {
+        className: this.getCompareClassName(country.estimated_from, country.estimated_to, country.incidence_13_days_ago)
+      }, this.getCompareContent(country.estimated_from, country.estimated_to, country.incidence_13_days_ago)), /*#__PURE__*/React.createElement("td", {
+        className: "country__death"
+      }, country.death_incidence_today.toFixed(2)), /*#__PURE__*/React.createElement("td", {
+        className: "country__death-max"
+      }, country.record_death_incidence.toFixed(2)), /*#__PURE__*/React.createElement("td", {
+        className: "country__dynamic"
+      }, country.direction_symbols), /*#__PURE__*/React.createElement("td", {
+        className: "country__update"
+      }, country.last_update_date));
+      return countryRow;
+    }.bind(this));
     return countriesRows;
   }
 
