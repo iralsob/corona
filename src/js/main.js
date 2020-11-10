@@ -16,183 +16,188 @@ class CountriesTable extends React.Component {
     };
   }
 
-  componentDidMount(){
-    getData().then(res => res.json())
+  componentDidMount() {
+    getData().then(response => response.json())
     .then(
-      (result) => {
+      (countries) => {
         this.setState({
           isLoaded: true,
-          countries: result
+          countries
         });
       },
       (error) => {
         this.setState({
           isLoaded: true,
-          error: error
+          error
         });
       }
     );
   }
 
-  handleScrollTable (e) {
-    var elm = e.target;
+  handleScrollTable(e) {
+    let elm = e.target;
 
     this.setState({currScrollPosition: elm.scrollLeft});
 
-    var endScrollPosition = elm.scrollWidth - elm.offsetWidth - 10;
+    const endScrollPosition = elm.scrollWidth - elm.offsetWidth - 10;
     if (elm.scrollLeft >= endScrollPosition) {
       this.setState({reachEndScrollPosition: true});
     } else {
       this.setState({reachEndScrollPosition: false});
     }
   }
-  getRowClassName (name, displayName) {
-    var className = 'countries-table__row country';
+  getRowClassName(name, displayName) {
+    let className = 'countries-table__row country';
     if (name != displayName) {
       className += ' record';
     }
     return className;
   }
-  getCountryClassName () {
-    var className = "country__name";
+  getCountryClassName() {
+    let className = "country__name";
     if(this.state.currScrollPosition > 0){
       className += ' active';
     }
     return className;
   }
-  getRegionClassName () {
-    var className = '';
+  getRegionClassName() {
+    let className = '';
     if(this.state.currScrollPosition > 0){
       className += ' active';
     }
     return className;
   }
-  getCountyName (countryName) {
+  getCountyName(countryName) {
     if (countryName == 'United_States_of_America') {
       countryName = 'USA';
     }
     return countryName;
   }
-  getRegionName (regionName) {
+  getRegionName(regionName) {
     if (regionName == 'Yamalo-Nenets Autonomous Okrug') {
       regionName = 'YaNAO';
     }
     return regionName;
   }
-  getCountryRange (estimatedFrom, estimatedTo) {
-    var range = estimatedFrom+' - '+estimatedTo;
+  getCountryRange(estimatedFrom, estimatedTo) {
+    let range = estimatedFrom + ' - ' + estimatedTo;
     return range;
   }
   getRegionRange(rangeFrom, rangeTo) {
-    var rangeContent = '-';
-    if (rangeFrom){
+    let rangeContent = '-';
+    if (rangeFrom) {
       rangeContent = rangeFrom + ' - ' + rangeTo;
     }
     return rangeContent;
   }
-  getCompareClassName (estimatedFrom, estimatedTo, incidence) {
-    var className = 'country__compared';
+  getCompareClassName(estimatedFrom, estimatedTo, incidence) {
+    let className = 'country__compared';
     if (incidence < estimatedFrom) {
-      var difference = (estimatedFrom*100/incidence - 100).toFixed();
+      let difference = (estimatedFrom * 100 / incidence - 100).toFixed();
       if (difference >= 100){
         className += ' more';
       }
     }
     return className;
   }
-  getCompareContent (estimatedFrom, estimatedTo, incidence) {
-    var content;
+  getCompareContent(estimatedFrom, estimatedTo, incidence) {
+    let content = '';
     if (incidence < estimatedFrom) {
-      content = '+'+(estimatedFrom*100/incidence - 100).toFixed();
+      content += '+';
+      content += (estimatedFrom * 100 / incidence - 100).toFixed();
       content += '%';
     } else if (incidence > estimatedTo) {
-      content = (estimatedTo*100/incidence - 100).toFixed();
+      content += (estimatedTo * 100 / incidence - 100).toFixed();
       content += '%';
     }  else {
-      content = 'within range';
+      content += 'within range';
     }
 
     return content;
   }
-  getOverflowClassName () {
-    var overflowClassName = 'countries-table__overflow';
+  getOverflowClassName() {
+    let overflowClassName = 'countries-table__overflow';
     if(!this.state.reachEndScrollPosition){
       overflowClassName += ' active';
     }
     return overflowClassName;
   }
-  getCountriesSubRows(regions){
-    var regions = (<tr><td>1</td></tr>);
-    return regions;
+  getIncidenceClassName(displayName) {
+    let className = '';
+    if (displayName.indexOf('!!') > -1) {
+      className = 'more';
+    }
+    return className;
   }
   getCountriesRows (countries) {
     var countriesRows = countries.map(function(countryData) {
       var country = countryData.country_data;
-      var countryRow = (<tr key={country.position}
-          className={
-            this.getRowClassName(
-              country.country_name,
-              country.display_name)
-          }>
-        <td className={this.getCountryClassName()}>
-          {this.getCountyName(country.country_name)}
-        </td>
-        <td className="country__cases">
-          {country.incidence_today}
-        </td>
-        <td className="country__cases-week-ago">
-          {country.incidence_7_days_ago}
-        </td>
-        <td className="country__cases-two-weeks-ago">
-          {country.incidence_13_days_ago}
-        </td>
-        <td className="country__range">
-          {this.getCountryRange(
-            country.estimated_from,
-            country.estimated_to)}
-        </td>
-        <td className={
-          this.getCompareClassName(
-            country.estimated_from,
-            country.estimated_to,
-            country.incidence_13_days_ago)
-          }>
-          {this.getCompareContent(
-            country.estimated_from,
-            country.estimated_to,
-            country.incidence_13_days_ago)
-          }
-        </td>
-        <td className="country__death">
-          {country.death_incidence_today.toFixed(2)}
-        </td>
-        <td className="country__death-max">
-          {country.record_death_incidence.toFixed(2)}
-        </td>
-        <td className="country__dynamic">
-          {country.direction_symbols}
-        </td>
-        <td className="country__update">
-          {country.last_update_date}
-        </td>
-      </tr>);
-
+      var countryRow = (
+        <tr key={country.position} className={
+          this.getRowClassName(
+            country.country_name,
+            country.display_name
+          )}>
+          <td className={this.getCountryClassName()}>
+            {this.getCountyName(country.country_name)}
+          </td>
+          <td className={this.getIncidenceClassName(country.display_name)}>
+            {country.incidence_today}
+          </td>
+          <td className="country__cases-week-ago">
+            {country.incidence_7_days_ago}
+          </td>
+          <td className="country__cases-two-weeks-ago">
+            {country.incidence_13_days_ago}
+          </td>
+          <td className="country__range">
+            {this.getCountryRange(
+              country.estimated_from,
+              country.estimated_to)}
+          </td>
+          <td className={
+            this.getCompareClassName(
+              country.estimated_from,
+              country.estimated_to,
+              country.incidence_13_days_ago
+            )}>
+            {this.getCompareContent(
+              country.estimated_from,
+              country.estimated_to,
+              country.incidence_13_days_ago)}
+          </td>
+          <td className="country__death">
+            {country.death_incidence_today.toFixed(2)}
+          </td>
+          <td className="country__death-max">
+            {country.record_death_incidence.toFixed(2)}
+          </td>
+          <td className="country__dynamic">
+            {country.direction_symbols}
+          </td>
+          <td className="country__update">
+            {country.last_update_date}
+          </td>
+        </tr>
+      );
 
       var regions = countryData.regions;
       if(regions.length) {
         var regionRows = regions.map((region) =>
-          (<tr  key={region.region_data.region_name}
-                className="country__region">
+          (<tr key={region.region_data.region_name}
+            className="country__region">
             <td className={this.getRegionClassName()}>
               {this.getRegionName(region.region_data.region_name)}
             </td>
             <td>{region.region_data.incidence_today}</td>
-            <td>{region.region_data.incidence_7_days_ago>0
+            <td>{region.region_data.incidence_7_days_ago > 0
               ?region.region_data.incidence_7_days_ago
-              :'-'}</td>
-            <td>{region.region_data.incidence_13_days_ago>0
+              :'-'}
+            </td>
+            <td>{region.region_data.incidence_13_days_ago > 0
               ?region.region_data.incidence_13_days_ago
-              :'-'}</td>
+              :'-'}
+            </td>
             <td>
               {this.getRegionRange(region.region_data.estimated_from,
                   region.region_data.estimated_t)}
@@ -202,17 +207,12 @@ class CountriesTable extends React.Component {
             <td>-</td>
             <td>-</td>
             <td>{region.region_data.last_update_date}</td>
-            </tr>)
+          </tr>)
         );
       }
 
-
       return [countryRow, regionRows];
     }.bind(this));
-
-
-
-
 
     return countriesRows;
   }
@@ -229,10 +229,6 @@ class CountriesTable extends React.Component {
     } else {
       var sortedCountries = data.sorted_countries;
 
-      var hCountryClassName = '';
-      if(this.state.currScrollPosition != 0){
-        hCountryClassName += 'active';
-      }
       return(
         <div className="countries-table__wrapper">
           <div
@@ -241,7 +237,11 @@ class CountriesTable extends React.Component {
             <table className="countries-table">
               <thead>
                 <tr>
-                  <th className={hCountryClassName}>Country</th>
+                  <th className={
+                    this.state.currScrollPosition>0
+                    ?'active':''}>
+                    Country
+                  </th>
                   <th>C</th>
                   <th>C week ago</th>
                   <th>C 13&nbsp;days ago</th>
@@ -269,14 +269,20 @@ class Content extends React.Component {
       return (
         <div>
           <div>
-            <p>C &ndash; corona-cases per 100,000 people per last week</p>
-            <p>C<sub>e</sub> &ndash; estimated C (сalculated by deaths
-              in 13 days if the lethality of the virus is 0.5% or 1%)</p>
+            <p>
+              C &ndash; corona-cases per 100,000 people per last week.
+              Highlighted in red, if today is record
+            </p>
+            <p>
+              C<sub>e</sub> &ndash; estimated C (сalculated by deaths
+              in 13 days if the lethality of the virus is 0.5% or 1%)
+            </p>
             <p>D &ndash; death per 100,000 people per last week</p>
             <p>
               Countries with a record this week are highlighted in red.
             </p>
-            <p>Cells in column C vs C<sub>e</sub> are highlighted in red,
+            <p>
+              Cells in column C vs C<sub>e</sub> are highlighted in red,
               if&nbsp;C<sub>e</sub>&nbsp;is&nbsp;100%&nbsp;more
             </p>
           </div>

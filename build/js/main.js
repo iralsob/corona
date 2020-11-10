@@ -19,25 +19,25 @@ class CountriesTable extends React.Component {
   }
 
   componentDidMount() {
-    getData().then(res => res.json()).then(result => {
+    getData().then(response => response.json()).then(countries => {
       this.setState({
         isLoaded: true,
-        countries: result
+        countries
       });
     }, error => {
       this.setState({
         isLoaded: true,
-        error: error
+        error
       });
     });
   }
 
   handleScrollTable(e) {
-    var elm = e.target;
+    let elm = e.target;
     this.setState({
       currScrollPosition: elm.scrollLeft
     });
-    var endScrollPosition = elm.scrollWidth - elm.offsetWidth - 10;
+    const endScrollPosition = elm.scrollWidth - elm.offsetWidth - 10;
 
     if (elm.scrollLeft >= endScrollPosition) {
       this.setState({
@@ -51,7 +51,7 @@ class CountriesTable extends React.Component {
   }
 
   getRowClassName(name, displayName) {
-    var className = 'countries-table__row country';
+    let className = 'countries-table__row country';
 
     if (name != displayName) {
       className += ' record';
@@ -61,7 +61,7 @@ class CountriesTable extends React.Component {
   }
 
   getCountryClassName() {
-    var className = "country__name";
+    let className = "country__name";
 
     if (this.state.currScrollPosition > 0) {
       className += ' active';
@@ -71,7 +71,7 @@ class CountriesTable extends React.Component {
   }
 
   getRegionClassName() {
-    var className = '';
+    let className = '';
 
     if (this.state.currScrollPosition > 0) {
       className += ' active';
@@ -97,12 +97,12 @@ class CountriesTable extends React.Component {
   }
 
   getCountryRange(estimatedFrom, estimatedTo) {
-    var range = estimatedFrom + ' - ' + estimatedTo;
+    let range = estimatedFrom + ' - ' + estimatedTo;
     return range;
   }
 
   getRegionRange(rangeFrom, rangeTo) {
-    var rangeContent = '-';
+    let rangeContent = '-';
 
     if (rangeFrom) {
       rangeContent = rangeFrom + ' - ' + rangeTo;
@@ -112,10 +112,10 @@ class CountriesTable extends React.Component {
   }
 
   getCompareClassName(estimatedFrom, estimatedTo, incidence) {
-    var className = 'country__compared';
+    let className = 'country__compared';
 
     if (incidence < estimatedFrom) {
-      var difference = (estimatedFrom * 100 / incidence - 100).toFixed();
+      let difference = (estimatedFrom * 100 / incidence - 100).toFixed();
 
       if (difference >= 100) {
         className += ' more';
@@ -126,23 +126,24 @@ class CountriesTable extends React.Component {
   }
 
   getCompareContent(estimatedFrom, estimatedTo, incidence) {
-    var content;
+    let content = '';
 
     if (incidence < estimatedFrom) {
-      content = '+' + (estimatedFrom * 100 / incidence - 100).toFixed();
+      content += '+';
+      content += (estimatedFrom * 100 / incidence - 100).toFixed();
       content += '%';
     } else if (incidence > estimatedTo) {
-      content = (estimatedTo * 100 / incidence - 100).toFixed();
+      content += (estimatedTo * 100 / incidence - 100).toFixed();
       content += '%';
     } else {
-      content = 'within range';
+      content += 'within range';
     }
 
     return content;
   }
 
   getOverflowClassName() {
-    var overflowClassName = 'countries-table__overflow';
+    let overflowClassName = 'countries-table__overflow';
 
     if (!this.state.reachEndScrollPosition) {
       overflowClassName += ' active';
@@ -151,9 +152,14 @@ class CountriesTable extends React.Component {
     return overflowClassName;
   }
 
-  getCountriesSubRows(regions) {
-    var regions = /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, "1"));
-    return regions;
+  getIncidenceClassName(displayName) {
+    let className = '';
+
+    if (displayName.indexOf('!!') > -1) {
+      className = 'more';
+    }
+
+    return className;
   }
 
   getCountriesRows(countries) {
@@ -165,7 +171,7 @@ class CountriesTable extends React.Component {
       }, /*#__PURE__*/React.createElement("td", {
         className: this.getCountryClassName()
       }, this.getCountyName(country.country_name)), /*#__PURE__*/React.createElement("td", {
-        className: "country__cases"
+        className: this.getIncidenceClassName(country.display_name)
       }, country.incidence_today), /*#__PURE__*/React.createElement("td", {
         className: "country__cases-week-ago"
       }, country.incidence_7_days_ago), /*#__PURE__*/React.createElement("td", {
@@ -212,12 +218,6 @@ class CountriesTable extends React.Component {
       return /*#__PURE__*/React.createElement("div", null, "Loading...");
     } else {
       var sortedCountries = data.sorted_countries;
-      var hCountryClassName = '';
-
-      if (this.state.currScrollPosition != 0) {
-        hCountryClassName += 'active';
-      }
-
       return /*#__PURE__*/React.createElement("div", {
         className: "countries-table__wrapper"
       }, /*#__PURE__*/React.createElement("div", {
@@ -226,7 +226,7 @@ class CountriesTable extends React.Component {
       }, /*#__PURE__*/React.createElement("table", {
         className: "countries-table"
       }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-        className: hCountryClassName
+        className: this.state.currScrollPosition > 0 ? 'active' : ''
       }, "Country"), /*#__PURE__*/React.createElement("th", null, "C"), /*#__PURE__*/React.createElement("th", null, "C week ago"), /*#__PURE__*/React.createElement("th", null, "C 13\xA0days ago"), /*#__PURE__*/React.createElement("th", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " range"), /*#__PURE__*/React.createElement("th", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " vs C 13\xA0days ago"), /*#__PURE__*/React.createElement("th", null, "D"), /*#__PURE__*/React.createElement("th", null, "D max"), /*#__PURE__*/React.createElement("th", null, "Weekly dynamics"), /*#__PURE__*/React.createElement("th", null, "Update"))), /*#__PURE__*/React.createElement("tbody", null, this.getCountriesRows(sortedCountries))), /*#__PURE__*/React.createElement("div", {
         className: this.getOverflowClassName()
       })));
@@ -237,7 +237,7 @@ class CountriesTable extends React.Component {
 
 class Content extends React.Component {
   render() {
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "C \u2013 corona-cases per 100,000 people per last week"), /*#__PURE__*/React.createElement("p", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " \u2013 estimated C (\u0441alculated by deaths in 13 days if the lethality of the virus is 0.5% or 1%)"), /*#__PURE__*/React.createElement("p", null, "D \u2013 death per 100,000 people per last week"), /*#__PURE__*/React.createElement("p", null, "Countries with a record this week are highlighted in red."), /*#__PURE__*/React.createElement("p", null, "Cells in column C vs C", /*#__PURE__*/React.createElement("sub", null, "e"), " are highlighted in red, if\xA0C", /*#__PURE__*/React.createElement("sub", null, "e"), "\xA0is\xA0100%\xA0more")), /*#__PURE__*/React.createElement(CountriesTable, null));
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("p", null, "C \u2013 corona-cases per 100,000 people per last week. Highlighted in red, if today is record"), /*#__PURE__*/React.createElement("p", null, "C", /*#__PURE__*/React.createElement("sub", null, "e"), " \u2013 estimated C (\u0441alculated by deaths in 13 days if the lethality of the virus is 0.5% or 1%)"), /*#__PURE__*/React.createElement("p", null, "D \u2013 death per 100,000 people per last week"), /*#__PURE__*/React.createElement("p", null, "Countries with a record this week are highlighted in red."), /*#__PURE__*/React.createElement("p", null, "Cells in column C vs C", /*#__PURE__*/React.createElement("sub", null, "e"), " are highlighted in red, if\xA0C", /*#__PURE__*/React.createElement("sub", null, "e"), "\xA0is\xA0100%\xA0more")), /*#__PURE__*/React.createElement(CountriesTable, null));
   }
 
 }
