@@ -249,7 +249,7 @@ class CountriesTable extends React.Component {
                   <th>C<sub>e</sub> vs C 13&nbsp;days ago</th>
                   <th>D</th>
                   <th>D max</th>
-                  <th>Weekly dynamics</th>
+                  <th>Dynamics in&nbsp;7&nbsp;weeks</th>
                   <th>Update</th>
                 </tr>
               </thead>
