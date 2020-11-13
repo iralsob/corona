@@ -49,6 +49,7 @@
       _this.handleScrollTable = _this.handleScrollTable.bind(_assertThisInitialized(_this));
       _this.onSort = _this.onSort.bind(_assertThisInitialized(_this));
       _this.toggleCountriesQuantity = _this.toggleCountriesQuantity.bind(_assertThisInitialized(_this));
+      _this.toggleRegionsView = _this.toggleRegionsView.bind(_assertThisInitialized(_this));
       _this.state = {
         currScrollPosition: 0,
         reachEndScrollPosition: false,
@@ -57,7 +58,8 @@
         countries: {},
         sortField: 'incidence_today',
         sort: 'asc',
-        showAllWorld: false
+        showAllWorld: false,
+        hideRegions: true
       };
       return _this;
     }
@@ -388,16 +390,20 @@
         var _this3 = this;
 
         var regionRows;
-        regionRows = regions.map(function (region) {
-          return /*#__PURE__*/React.createElement("tr", {
-            key: region.region_data.region_name,
-            className: "country country__region"
-          }, /*#__PURE__*/React.createElement("td", {
-            className: _this3.getRegionClassName()
-          }, _this3.getRegionName(region.region_data.region_name)), /*#__PURE__*/React.createElement("td", null, region.region_data.incidence_today), /*#__PURE__*/React.createElement("td", null, region.region_data.incidence_7_days_ago > 0 ? region.region_data.incidence_7_days_ago : '-'), /*#__PURE__*/React.createElement("td", null, region.region_data.incidence_13_days_ago > 0 ? region.region_data.incidence_13_days_ago : '-'), /*#__PURE__*/React.createElement("td", null, _this3.getRegionRange(region.region_data.estimated_from, region.region_data.estimated_t)), /*#__PURE__*/React.createElement("td", {
-            className: "country__region_compared"
-          }, "-"), /*#__PURE__*/React.createElement("td", null, "-"), /*#__PURE__*/React.createElement("td", null, "-"), /*#__PURE__*/React.createElement("td", null, "-"), /*#__PURE__*/React.createElement("td", null, region.region_data.last_update_date));
-        });
+
+        if (!this.state.hideRegions) {
+          regionRows = regions.map(function (region) {
+            return /*#__PURE__*/React.createElement("tr", {
+              key: region.region_data.region_name,
+              className: "country country__region"
+            }, /*#__PURE__*/React.createElement("td", {
+              className: _this3.getRegionClassName()
+            }, _this3.getRegionName(region.region_data.region_name)), /*#__PURE__*/React.createElement("td", null, region.region_data.incidence_today), /*#__PURE__*/React.createElement("td", null, region.region_data.incidence_7_days_ago > 0 ? region.region_data.incidence_7_days_ago : '-'), /*#__PURE__*/React.createElement("td", null, region.region_data.incidence_13_days_ago > 0 ? region.region_data.incidence_13_days_ago : '-'), /*#__PURE__*/React.createElement("td", null, _this3.getRegionRange(region.region_data.estimated_from, region.region_data.estimated_t)), /*#__PURE__*/React.createElement("td", {
+              className: "country__region_compared"
+            }, "-"), /*#__PURE__*/React.createElement("td", null, "-"), /*#__PURE__*/React.createElement("td", null, "-"), /*#__PURE__*/React.createElement("td", null, "-"), /*#__PURE__*/React.createElement("td", null, region.region_data.last_update_date));
+          });
+        }
+
         return regionRows;
       }
     }, {
@@ -405,6 +411,13 @@
       value: function toggleCountriesQuantity() {
         this.setState({
           showAllWorld: !this.state.showAllWorld
+        });
+      }
+    }, {
+      key: "toggleRegionsView",
+      value: function toggleRegionsView() {
+        this.setState({
+          hideRegions: !this.state.hideRegions
         });
       }
     }, {
@@ -423,9 +436,12 @@
           return /*#__PURE__*/React.createElement("div", {
             className: "countries-table__wrapper"
           }, /*#__PURE__*/React.createElement("button", {
-            className: "countries-table__toggle-view-btn",
+            className: "countries-table__btn toggle-view",
             onClick: this.toggleCountriesQuantity
-          }, this.state.showAllWorld ? 'Show less' : 'Show more'), /*#__PURE__*/React.createElement("div", {
+          }, this.state.showAllWorld ? 'Show less' : 'Show more'), /*#__PURE__*/React.createElement("button", {
+            className: "countries-table__btn hide-regions",
+            onClick: this.toggleRegionsView
+          }, this.state.hideRegions ? 'Show regions' : 'Hide regions'), /*#__PURE__*/React.createElement("div", {
             className: "countries-table__wrap",
             onScroll: this.handleScrollTable
           }, /*#__PURE__*/React.createElement("table", {

@@ -4,6 +4,7 @@ class CountriesTable extends React.Component {
     this.handleScrollTable = this.handleScrollTable.bind(this);
     this.onSort = this.onSort.bind(this);
     this.toggleCountriesQuantity = this.toggleCountriesQuantity.bind(this);
+    this.toggleRegionsView = this.toggleRegionsView.bind(this);
     this.state = {
       currScrollPosition: 0,
       reachEndScrollPosition: false,
@@ -12,7 +13,8 @@ class CountriesTable extends React.Component {
       countries: {},
       sortField: 'incidence_today',
       sort: 'asc',
-      showAllWorld: false
+      showAllWorld: false,
+      hideRegions: true
     };
   }
   componentDidMount() {
@@ -336,37 +338,44 @@ class CountriesTable extends React.Component {
   }
   getRegionRowsHTML(regions) {
     let regionRows;
-    regionRows = regions.map((region) =>
-      (<tr key={region.region_data.region_name}
-        className="country country__region">
-        <td className={this.getRegionClassName()}>
-          {this.getRegionName(region.region_data.region_name)}
-        </td>
-        <td>{region.region_data.incidence_today}</td>
-        <td>{region.region_data.incidence_7_days_ago > 0
-          ?region.region_data.incidence_7_days_ago
-          :'-'}
-        </td>
-        <td>{region.region_data.incidence_13_days_ago > 0
-          ?region.region_data.incidence_13_days_ago
-          :'-'}
-        </td>
-        <td>
-          {this.getRegionRange(region.region_data.estimated_from,
-              region.region_data.estimated_t)}
-        </td>
-        <td className="country__region_compared">-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>{region.region_data.last_update_date}</td>
-      </tr>)
-    );
+    if(!this.state.hideRegions) {
+      regionRows = regions.map((region) =>
+        (<tr key={region.region_data.region_name}
+          className="country country__region">
+          <td className={this.getRegionClassName()}>
+            {this.getRegionName(region.region_data.region_name)}
+          </td>
+          <td>{region.region_data.incidence_today}</td>
+          <td>{region.region_data.incidence_7_days_ago > 0
+            ?region.region_data.incidence_7_days_ago
+            :'-'}
+          </td>
+          <td>{region.region_data.incidence_13_days_ago > 0
+            ?region.region_data.incidence_13_days_ago
+            :'-'}
+          </td>
+          <td>
+            {this.getRegionRange(region.region_data.estimated_from,
+                region.region_data.estimated_t)}
+          </td>
+          <td className="country__region_compared">-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>{region.region_data.last_update_date}</td>
+        </tr>)
+      );
+    }
     return regionRows;
   }
   toggleCountriesQuantity() {
     this.setState({
       showAllWorld: !this.state.showAllWorld
+    });
+  }
+  toggleRegionsView() {
+    this.setState({
+      hideRegions: !this.state.hideRegions
     });
   }
   render() {
@@ -382,10 +391,14 @@ class CountriesTable extends React.Component {
       var sortedCountries = data.sorted_countries;
       return(
         <div className="countries-table__wrapper">
-          <button className="countries-table__toggle-view-btn"
+          <button className="countries-table__btn toggle-view"
             onClick={this.toggleCountriesQuantity}>
             {this.state.showAllWorld?'Show less':'Show more'}
           </button>
+            <button className="countries-table__btn hide-regions"
+              onClick={this.toggleRegionsView}>
+              {this.state.hideRegions?'Show regions':'Hide regions'}
+            </button>
           <div
             className="countries-table__wrap"
             onScroll={this.handleScrollTable}>
