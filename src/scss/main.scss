@@ -6,12 +6,14 @@ html {
   font-family: 'PT Sans Narrow', sans-serif;
   font-size: 1em;
 }
+
 body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 0 4em 0;
 }
+
 .container {
   p {
     margin: .5em 1em;
@@ -20,99 +22,18 @@ body {
     }
   }
 }
+
 .countries-table {
   border-spacing: 0;
 
-  th {
-    font-weight: normal;
-    text-align: center;
-
-    color: #f7f3e7;
-    background-color: #8e8d8a;
-  }
-
-  td {
-    text-align: right;
-
-    background-color: #eae7dc;
-    white-space: nowrap;
-  }
-
-  th,td {
-    min-width: 2em;
-    padding: 5px 10px;
-
-    border-top: 1px solid #8e8d8a;
-
-    &:first-child {
-      position: sticky;
-      left:0;
-
-      text-align: left;
-
-      box-shadow: 0px 4px 9px -2px transparent;
-      transition: box-shadow .3s 0s linear;
-
-      &.active {
-        box-shadow: 0px 4px 9px -2px #333;
-      }
-    }
-  }
-
-  .country {
-    &:first-child {
-      td {
-        border-top:none !important;
-      }
-    }
-    &__region {
-      td:first-child {
-        text-align: right;
-      }
-      td {
-        border-top-style: dotted;
-      }
-      &_compared {
-        text-align: center;
-      }
-    }
-
-
-    &.record {
-      td {
-        color: #f7f3e7;
-        background-color: #e87369;
-        border-color: #eae7dc;
-
-        &.more {
-          background-color: #e85a4f;
-          border-color:#eae7dc;
-        }
-      }
-      &+tr:not(.record) {
-        td {
-          border-color:#eae7dc;
-        }
-      }
-    }
-
-    &__compared,
-    &__dynamic {
-      text-align: center;
-
-      &.more {
-        background-color: #e87369;
-        color: #f7f3e7;
-        border-color: #f7f3e7;
-      }
-    }
-  }
   &__wrap {
     overflow-x: auto;
   }
+
   &__wrapper {
     position: relative;
   }
+
   &__overflow{
     display: inline-block;
     position: absolute;
@@ -130,8 +51,174 @@ body {
     }
   }
 }
+.country {
+  &__header th {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+
+    font-weight: normal;
+    text-align: center;
+
+    color: #f7f3e7;
+    background-color: #8e8d8a;
+
+  }
+
+  td {
+    text-align: right;
+
+    background-color: #eae7dc;
+    white-space: nowrap;
+    cursor: default;
+  }
+
+  &__header th,
+  td {
+    min-width: 2em;
+    padding: 5px 10px;
+
+    border-top: 1px solid #8e8d8a;
+
+    &:first-child {
+      position: sticky;
+      left:0;
+      z-index: 1;
+
+      text-align: left;
+
+      box-shadow: 0px 4px 9px -2px transparent;
+      transition: box-shadow .3s 0s linear;
+
+      &.active {
+        box-shadow: 0px 4px 9px -2px #333;
+      }
+    }
+  }
+
+  &:first-child {
+    td {
+      border-top:none;
+    }
+  }
+
+  &__region {
+    td:first-child {
+      text-align: right;
+    }
+    td {
+      border-top-style: dotted;
+    }
+    &_compared {
+      text-align: center;
+    }
+  }
+
+
+  &.record {
+    td {
+      color: #f7f3e7;
+      background-color: #e87369;
+      border-color: #eae7dc;
+
+      &.more {
+        background-color: #e85a4f;
+        border-color:#eae7dc;
+      }
+    }
+    &+tr:not(.record) {
+      td {
+        border-color:#eae7dc;
+      }
+    }
+  }
+
+  &__compared,
+  &__dynamic {
+    text-align: center;
+
+    &.more {
+      background-color: #e87369;
+      color: #f7f3e7;
+      border-color: #f7f3e7;
+    }
+  }
+}
+.country__header th:hover {
+  .sort__icon {
+    &:before,
+    &:after {
+      opacity: 1;
+    }
+    // &_down {
+    //   &:before {
+    //     opacity: 1;
+    //   }
+    //   &:after {
+    //     opacity: 0;
+    //   }
+    // }
+    // &_up {
+    //   &:before {
+    //     opacity: 0;
+    //   }
+    //   &:after {
+    //     opacity: 1;
+    //   }
+    // }
+  }
+}
+.sort {
+  &__icon {
+    display: inline-block;
+    width: 15px;
+    vertical-align: middle;
+    height: 15px;
+    position: relative;
+    opacity: .8;
+
+    &:before,
+    &:after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      rigth: 0;
+      margin: auto;
+      border: 3px solid transparent;
+      opacity: .5;
+
+      transition: opacity .2s ease-out 0s;
+    }
+    &:before {
+      top:0;
+      border-bottom: 3px solid #f7f3e7;
+    }
+    &:after {
+      bottom: 0;
+      border-top: 3px solid #f7f3e7;
+    }
+    &_down {
+      &:before {
+        opacity: 0;
+      }
+    }
+    &_up {
+      &:after {
+        opacity: 0;
+      }
+    }
+
+  }
+}
 @media only screen and (min-width: 1200px) {
   .container {
     margin: 0 auto;
+  }
+}
+@media only screen and (min-width: 960px) {
+  .countries-table {
+    &__overflow {
+      display: none;
+    }
   }
 }
