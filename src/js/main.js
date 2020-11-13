@@ -395,10 +395,11 @@ class CountriesTable extends React.Component {
             onClick={this.toggleCountriesQuantity}>
             {this.state.showAllWorld?'Show less':'Show more'}
           </button>
-            <button className="countries-table__btn hide-regions"
-              onClick={this.toggleRegionsView}>
-              {this.state.hideRegions?'Show regions':'Hide regions'}
-            </button>
+          <button className="countries-table__btn hide-regions"
+            onClick={this.toggleRegionsView}>
+            {this.state.hideRegions?'Show regions*':'Hide regions*'}
+          </button>
+          <p>* only for German, Austria and Russia</p>
           <div
             className="countries-table__wrap"
             onScroll={this.handleScrollTable}>

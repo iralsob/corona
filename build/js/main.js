@@ -441,7 +441,7 @@
           }, this.state.showAllWorld ? 'Show less' : 'Show more'), /*#__PURE__*/React.createElement("button", {
             className: "countries-table__btn hide-regions",
             onClick: this.toggleRegionsView
-          }, this.state.hideRegions ? 'Show regions' : 'Hide regions'), /*#__PURE__*/React.createElement("div", {
+          }, this.state.hideRegions ? 'Show regions*' : 'Hide regions*'), /*#__PURE__*/React.createElement("p", null, "* only for German, Austria and Russia"), /*#__PURE__*/React.createElement("div", {
             className: "countries-table__wrap",
             onScroll: this.handleScrollTable
           }, /*#__PURE__*/React.createElement("table", {
