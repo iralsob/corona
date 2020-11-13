@@ -382,7 +382,8 @@ class CountriesTable extends React.Component {
       var sortedCountries = data.sorted_countries;
       return(
         <div className="countries-table__wrapper">
-          <button onClick={this.toggleCountriesQuantity}>
+          <button className="countries-table__toggle-view-btn"
+            onClick={this.toggleCountriesQuantity}>
             {this.state.showAllWorld?'Show less':'Show more'}
           </button>
           <div

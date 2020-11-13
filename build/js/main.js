@@ -423,6 +423,7 @@
           return /*#__PURE__*/React.createElement("div", {
             className: "countries-table__wrapper"
           }, /*#__PURE__*/React.createElement("button", {
+            className: "countries-table__toggle-view-btn",
             onClick: this.toggleCountriesQuantity
           }, this.state.showAllWorld ? 'Show less' : 'Show more'), /*#__PURE__*/React.createElement("div", {
             className: "countries-table__wrap",

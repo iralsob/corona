@@ -50,6 +50,24 @@ body {
       opacity: 1;
     }
   }
+  &__toggle-view-btn {
+    background: #8e8d8a;
+    border: 1px solid #626262;
+    color: #eae7dc;
+    box-shadow: none;
+    padding: .5em 1em;
+    margin: 0em 1em 2em;
+    cursor: pointer;
+    transition: all .3s ease-out;
+
+    &:hover {
+      background: #eae7dc;
+      color: #626262;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
 }
 .country {
   &__header th {
